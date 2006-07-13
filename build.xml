@@ -1,0 +1,71 @@
+<project default="all" name="Genetic">
+   <property name="obj-dir" location="obj"/>
+   <property name="inc-dir" location="include"/>
+   <property name="lib-dir" location="lib"/>
+   <property name="src-dir" location="."/>
+   <property name="jarname" value="aigen-genetic.jar"/>
+   <property name="runclass" value="com.aigeneration.genetic.test.EvolutionTest"/>
+   <target name="init">
+      <mkdir dir="${obj-dir}"/>
+      <mkdir dir="${lib-dir}"/>
+   </target>
+   <target name="clean-init">
+      <delete dir="${obj-dir}"/>
+      <delete dir="${lib-dir}"/>
+   </target>
+   <target name="compile" depends="init">
+      <javac srcdir="${src-dir}" destdir="${obj-dir}">
+         <classpath>
+            <pathelement path="${inc-dir}"/>
+            <fileset dir="${inc-dir}">
+               <include name="**/*.jar"/>
+            </fileset>
+         </classpath>
+      </javac>
+      <copy todir="${obj-dir}">
+         <fileset dir="${src-dir}" includes="resource/**/*"/>
+      </copy>
+      <copy todir="${lib-dir}">
+         <fileset dir="${inc-dir}" includes="**/*"/>
+      </copy>
+   </target>
+   <target name="clean-compile">
+      <delete>
+         <fileset dir="${obj-dir}" includes="**/*.class"/>
+      </delete>
+   </target>
+   <target name="test" depends="compile" description="Run unit tests">
+      <junit printsummary="true" haltonfailure="true">
+         <formatter type="brief" usefile="false"/>
+         <classpath>
+            <pathelement path="${obj-dir}"/>
+            <pathelement path="${inc-dir}"/>
+            <fileset dir="${inc-dir}">
+               <include name="**/*.jar"/>
+            </fileset>
+         </classpath>
+         <batchtest>
+            <fileset dir="${obj-dir}" includes="**/*Test.class"/>
+            <fileset dir="${obj-dir}" includes="**/*Tester.class"/>
+         </batchtest>
+      </junit>
+   </target>
+   <target name="jar" depends="test">
+      <jar destfile="${lib-dir}/${jarname}" basedir="${obj-dir}"/>
+   </target>
+   <target name="clean-jar">
+      <delete file="${lib-dir}/${jarname}"/>
+   </target>
+   <target name="run" depends="jar">
+      <java classname="${runclass}" fork="true">
+         <classpath>
+            <pathelement path="${lib-dir}"/>
+            <fileset dir="${lib-dir}">
+               <include name="**/*.jar"/>
+            </fileset>
+         </classpath>
+      </java>
+   </target>
+   <target name="all" depends="jar"/>
+   <target name="clean" depends="clean-init"/>
+</project>
