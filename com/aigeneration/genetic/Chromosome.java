@@ -3,7 +3,7 @@ package com.aigeneration.genetic;
 /**
  * Chromosome implementation
  * @author Vlad Shurupov
- * @version 1.0
+ * @version 1.01
  */
 public class Chromosome {
 
@@ -17,15 +17,20 @@ public class Chromosome {
    * @param genes the array of genes
    */
   public Chromosome(Gene[] genes, double crossoverRate) {
-    this(genes, DefaultCrossoverStrategy.getInstance(), crossoverRate);
+    this(genes, new DefaultCrossoverStrategy(), crossoverRate);
   }
 
   public Chromosome(String geneString, double crossoverRate) {
-    char[] geneValues = geneString.toCharArray();
-    genes = new Gene[geneValues.length];
-    for (int i = 0; i < geneValues.length; i++)
-      genes[i] = new Gene(geneValues[i]);
-    this.crossoverStrategy = DefaultCrossoverStrategy.getInstance();
+    if (geneString == null)
+      throw new IllegalArgumentException("null");
+    if (crossoverRate < 0)
+      throw new IllegalArgumentException("crossover rate cannot be less" +
+        " than zero");
+    
+    genes = new Gene[geneString.length()];
+    for (int i = 0; i < genes.length; i++)
+      genes[i] = new Gene(geneString.charAt(i));
+    this.crossoverStrategy = new DefaultCrossoverStrategy();
     this.crossoverRate = crossoverRate;
   }
 
@@ -38,6 +43,12 @@ public class Chromosome {
   public Chromosome(Gene[] genes, ICrossoverStrategy crossoverStrategy,
     double crossoverRate)
   {
+    if (genes == null || crossoverStrategy == null)
+      throw new IllegalArgumentException("null");
+    if (crossoverRate < 0)
+      throw new IllegalArgumentException("crossover rate cannot be less" +
+        " than zero");
+
     this.genes = genes;
     this.crossoverStrategy = crossoverStrategy;
     this.crossoverRate = crossoverRate;
@@ -102,6 +113,10 @@ public class Chromosome {
       getCrossoverRate() == chromosome.getCrossoverRate();      
   }
 
+  /**
+   * @see java.lang.Object#toString()
+   */
+  @Override
   public String toString() {
     StringBuffer stringBuffer = new StringBuffer();
     for (int i = 0; i < genes.length; i++)
