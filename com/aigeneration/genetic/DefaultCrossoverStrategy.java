@@ -4,17 +4,13 @@ import java.util.Random;
 
 /**
  * @author Vlad Shurupov
- * @version 1.0
+ * @version 1.01
  */
 public class DefaultCrossoverStrategy implements ICrossoverStrategy {
 
   private Random random = new Random();
 
-  private DefaultCrossoverStrategy() {
-  }
-
-  public static ICrossoverStrategy getInstance() {
-    return new DefaultCrossoverStrategy();
+  public DefaultCrossoverStrategy() {
   }
 
   /**
@@ -40,13 +36,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy {
         geneSet1[i] = geneSet2[i];
         geneSet2[i] = temp;
       }
-
-//System.out.println(chromosome1 + " + " + chromosome2 + " = " + "{ " +
-//  new Chromosome(geneSet1, chromosome1.getCrossoverRate()) + ", " +
-//  new Chromosome(geneSet2, chromosome1.getCrossoverRate()) + "}"
-//);
-//System.out.println("position = " + position + "\n");
-
 
       return new ChromosomePair(
         new Chromosome(geneSet1, chromosome1.getCrossoverRate()),
