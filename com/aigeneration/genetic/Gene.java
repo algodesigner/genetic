@@ -3,11 +3,11 @@ package com.aigeneration.genetic;
 /**
  * Simple gene implementation
  * @author Vlad Shurupov
- * @version 1.0
+ * @version 1.01
  */
 public class Gene {
 
-  private Object value;
+  private final Object value;
 
   /**
    * Constructs a Gene object.
@@ -16,7 +16,6 @@ public class Gene {
   public Gene(Object value) {
     if (value == null)
       throw new IllegalArgumentException("Gene value cannot be null");
-
     this.value = value;
   }
 
@@ -28,6 +27,7 @@ public class Gene {
     return value;
   }
 
+  @Override
   public String toString() {
     return value.toString();
   }
@@ -42,10 +42,11 @@ public class Gene {
       return true;
     if (!object.getClass().equals(getClass()))
       return false;
-    Gene otherGene = (Gene)object;
-    return value.equals(otherGene.getValue());
+    Gene gene = (Gene)object;
+    return value.equals(gene.getValue());
   }
-  
+
+  @Override
   public int hashCode() {
     return value.hashCode();
   }
