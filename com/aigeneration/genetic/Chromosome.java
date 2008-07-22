@@ -3,7 +3,7 @@ package com.aigeneration.genetic;
 /**
  * Chromosome implementation
  * @author Vlad Shurupov
- * @version 1.01
+ * @version 1.02
  */
 public class Chromosome {
 
@@ -109,10 +109,10 @@ public class Chromosome {
    */
   @Override
   public String toString() {
-    StringBuffer stringBuffer = new StringBuffer();
+    StringBuilder builder = new StringBuilder(32);
     for (int i = 0; i < genes.length; i++)
-      stringBuffer.append(genes[i].toString());
-    return stringBuffer.toString();    
+      builder.append(genes[i].toString());
+    return builder.toString();    
   }
   
   /**
