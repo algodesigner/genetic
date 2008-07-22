@@ -21,18 +21,9 @@ public class Chromosome {
   }
 
   public Chromosome(String geneString, double crossoverRate) {
-    if (geneString == null)
-      throw new IllegalArgumentException("null");
-    if (crossoverRate < 0)
-      throw new IllegalArgumentException("crossover rate cannot be less" +
-        " than zero");
-    
-    genes = new Gene[geneString.length()];
-    for (int i = 0; i < genes.length; i++)
-      genes[i] = new Gene(geneString.charAt(i));
-    this.crossoverStrategy = new DefaultCrossoverStrategy();
-    this.crossoverRate = crossoverRate;
+    this(toGenes(geneString), crossoverRate);
   }
+  
 
   /**
    * Constructs a Chromosome object based on an array of Genea and a custom
@@ -122,5 +113,19 @@ public class Chromosome {
     for (int i = 0; i < genes.length; i++)
       stringBuffer.append(genes[i].toString());
     return stringBuffer.toString();    
+  }
+  
+  /**
+   * Converts a string into a gene sequence.
+   * @param geneString a string with each character represeting a gene.
+   * @return a gene sequence.
+   */
+  private static Gene[] toGenes(String geneString) {
+    if (geneString == null)
+      throw new IllegalArgumentException("null");
+    Gene[] genes = new Gene[geneString.length()];
+    for (int i = 0; i < genes.length; i++)
+      genes[i] = new Gene(geneString.charAt(i));
+    return genes;
   }
 }
