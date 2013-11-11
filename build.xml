@@ -2,7 +2,7 @@
    <property name="obj-dir" location="obj"/>
    <property name="inc-dir" location="include"/>
    <property name="lib-dir" location="lib"/>
-   <property name="src-dir" location="."/>
+   <property name="src-dir" location="src"/>
    <property name="jarname" value="aigen-genetic.jar"/>
    <property name="runclass" value="com.aigeneration.genetic.test.EvolutionTest"/>
    <target name="init">
