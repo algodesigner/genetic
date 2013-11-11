@@ -50,19 +50,19 @@ public class DefaultSelector implements ISelector {
     for (int i = 0; i < fitnessScores.length; i++)
       totalScore += fitnessScores[i];
 
-//    if (totalScore == 0)
+    if (totalScore == 0)
       return random.nextInt(fitnessScores.length);
 
-//    // Slice the distribution
-//    double slice = random.nextDouble() * totalScore;
-//    
-//    // Identify the "winning" entry
-//    double runningScore = 0;
-//    for (int i = 0; i < fitnessScores.length; i++) {
-//      runningScore += fitnessScores[i];
-//      if (runningScore >= slice)
-//        return i;
-//    }
-//    throw new IllegalStateException("Selection failed");
+    // Slice the distribution
+    double slice = random.nextDouble() * totalScore;
+    
+    // Identify the "winning" entry
+    double runningScore = 0;
+    for (int i = 0; i < fitnessScores.length; i++) {
+      runningScore += fitnessScores[i];
+      if (runningScore >= slice)
+        return i;
+    }
+    throw new IllegalStateException("Selection failed");
   }
 }

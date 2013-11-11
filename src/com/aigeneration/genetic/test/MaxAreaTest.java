@@ -18,7 +18,7 @@ public class MaxAreaTest {
     new TerminationCriteria(1000 * 3, 10000);
   private static final boolean ELITISM = true;
   
-  private static final int POPULATION_SIZE = 64;
+  private static final int POPULATION_SIZE = 128;
   
   
   @Test
