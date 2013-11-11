@@ -99,11 +99,11 @@ public class EvolutionEngine implements IEvolutionEngine {
     for (int i = 0; i < fitnessScores.length; i++) {
       fitnessScores[i] =
         fitnessEvaluator.evaluate(generation.getChromosome(i));
-      if (fitnessScores[i] == fitnessTarget) {
-        return i;
-      }
       if (fitnessScores[i] > fitnessScores[bestIndex])
         bestIndex = i;
+      if (fitnessScores[i] >= fitnessTarget) {
+        return i;
+      }
     }
     
     // New population: Produce offsprings that form a new generation
