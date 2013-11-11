@@ -1,7 +1,6 @@
 package com.aigeneration.genetic.test;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import com.aigeneration.genetic.Chromosome;
 import com.aigeneration.genetic.EvolutionEngine;
 import com.aigeneration.genetic.Gene;
@@ -11,13 +10,12 @@ import com.aigeneration.genetic.IncompatibleChromosomeException;
 import com.aigeneration.genetic.TerminationCriteria;
 import com.aigeneration.genetic.TerminationException;
 
-
 /**
  * EvolutionEngine intergration test.
  * @author Vlad Shurupov
- * @version 1.01
+ * @version 1.02
  */
-public class EvolutionTest extends TestCase {
+public class EvolutionTest {
 
   private static final double CROSSOVER_RATE = 0.7;
   private static final double MUTATION_RATE = 0.5;
@@ -27,6 +25,7 @@ public class EvolutionTest extends TestCase {
   
   private FitnessEvaluator fitnessEvaluator = new FitnessEvaluator();
 
+  @Test
   public void testEvolution()
     throws IncompatibleChromosomeException, TerminationException
   {

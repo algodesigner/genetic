@@ -1,16 +1,19 @@
 package com.aigeneration.genetic.test;
 
-import junit.framework.TestCase;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import org.junit.Test;
 import com.aigeneration.genetic.Gene;
 
 /**
  * Gene test cases.
  * @author Vlad Shurupov
- * @version 1.0
+ * @version 1.01
  */
-public class GeneTest extends TestCase {
+public class GeneTest {
 
+  @Test
   public void testConstructor() {
     try {
       new Gene(null);
@@ -20,6 +23,7 @@ public class GeneTest extends TestCase {
     fail("Gene constructor must not accept null");
   }
 
+  @Test
   public void testEquals() {
     Gene gene1 = new Gene(new Boolean(true));
     Gene gene2 = new Gene(new Boolean(false));

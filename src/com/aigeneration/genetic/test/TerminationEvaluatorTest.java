@@ -1,7 +1,7 @@
 package com.aigeneration.genetic.test;
 
-import junit.framework.TestCase;
-
+import static org.junit.Assert.fail;
+import org.junit.Test;
 import com.aigeneration.genetic.Generation;
 import com.aigeneration.genetic.IEvolutionEngine;
 import com.aigeneration.genetic.IncompatibleChromosomeException;
@@ -12,10 +12,11 @@ import com.aigeneration.genetic.TerminationException;
 /**
  * TerminationEvaluator test cases
  * @author Vlad Shurupov
- * @version 1.0
+ * @version 1.01
  */
-public class TerminationEvaluatorTest extends TestCase {
+public class TerminationEvaluatorTest {
 
+  @Test
   public void testConstructor() {
     try {
       new TerminationEvaluator(null);
@@ -24,6 +25,7 @@ public class TerminationEvaluatorTest extends TestCase {
     }
   }
 
+  @Test
   public void testOperation() throws TerminationException, InterruptedException {
     TerminationEvaluator terminationEvaluator =
       new TerminationEvaluator(new TestEvolutionEngine());

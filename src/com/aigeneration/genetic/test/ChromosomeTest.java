@@ -1,11 +1,13 @@
 package com.aigeneration.genetic.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import org.junit.Test;
 import com.aigeneration.genetic.Chromosome;
 
-import junit.framework.TestCase;
+public class ChromosomeTest {
 
-public class ChromosomeTest extends TestCase {
-  
+  @Test
   public void testConstruction() {
 
     new Chromosome("ABDBCAA", 0.5);
@@ -24,6 +26,7 @@ public class ChromosomeTest extends TestCase {
     }
   }
   
+  @Test
   public void testIllegalCrossoverRate() {
     try {
       new Chromosome(null, null, -0.1);
@@ -32,9 +35,9 @@ public class ChromosomeTest extends TestCase {
     }
   }
   
+  @Test
   public void testToString() {
     assertEquals("ABDBCAA", new Chromosome("ABDBCAA", 0.6).toString());
     assertEquals("XXYYZZ", new Chromosome("XXYYZZ", 0.3).toString());
   }
-  
 }
