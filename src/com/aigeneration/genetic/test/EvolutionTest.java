@@ -38,9 +38,12 @@ public class EvolutionTest {
     System.out.println("Problem Solved! Generation: " +
       evolutionEngine.getGenerationCount());      
     System.out.println(evolutionEngine.getGeneration());
+    System.out.println("Best index: " + evolutionEngine.getBestIndex());
+    
+    System.out.println(evolutionEngine.getGeneration().getChromosome(evolutionEngine.getBestIndex()));
   }
 
-  private Generation createInitialGeneration() {
+  private static Generation createInitialGeneration() {
     Chromosome[] chromosomes = {
       new Chromosome("010101010101010101010101010101010101010101010101", CROSSOVER_RATE),
       new Chromosome("10101010101010101010101.....01010101010101010101", CROSSOVER_RATE),
@@ -60,7 +63,7 @@ public class EvolutionTest {
     return new Generation(chromosomes);
   }
 
-  private class FitnessEvaluator implements IFitnessEvaluator {
+  private static class FitnessEvaluator implements IFitnessEvaluator {
 
     /**
      * @see com.aiage.gene.IFitnessEvaluator#evaluate(com.aiage.gene.Chromosome)
