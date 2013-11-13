@@ -15,10 +15,10 @@ public class MaxAreaTest {
   private static final double CROSSOVER_RATE = 0.7;
   private static final double MUTATION_RATE = 0.5;
   private static final TerminationCriteria TERMINATION_CRITERIA =
-    new TerminationCriteria(1000 * 3, 10000);
+    new TerminationCriteria(1000 * 3, 3000);
   private static final boolean ELITISM = true;
   
-  private static final int POPULATION_SIZE = 128;
+  private static final int POPULATION_SIZE = 256;
   
   
   @Test
