@@ -9,7 +9,6 @@ import com.aigeneration.genetic.IncompatibleChromosomeException;
 import com.aigeneration.genetic.TerminationCriteria;
 import com.aigeneration.genetic.TerminationException;
 
-
 public class MaxAreaTest {
  
   private static final double CROSSOVER_RATE = 0.7;
@@ -19,7 +18,6 @@ public class MaxAreaTest {
   private static final boolean ELITISM = true;
   
   private static final int POPULATION_SIZE = 256;
-  
   
   @Test
   public void testMaxArea() throws IncompatibleChromosomeException {
