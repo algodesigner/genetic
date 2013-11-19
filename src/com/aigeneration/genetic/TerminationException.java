@@ -13,13 +13,22 @@ public class TerminationException extends Exception {
   
   private final int bestIndex;
 
+  /**
+   * Constructs this Exception.
+   * @param message the Exception message.
+   * @param bestIndex the index of the fittest Chromosome.
+   */
   public TerminationException(String message, int bestIndex) {
     super(message);
     if (bestIndex < 0)
       throw new IllegalArgumentException("best index cannot be less than 0");
     this.bestIndex = bestIndex;
   }
-  
+
+  /**
+   * Returns the index of the fittest Chromosome.
+   * @return the index of the fittest Chromosome.
+   */
   public int getBestIndex() {
     return bestIndex;
   }

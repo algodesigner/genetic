@@ -119,7 +119,7 @@ public class Chromosome {
    * @param geneString a string with each character represeting a gene.
    * @return a gene sequence.
    */
-  private static Gene[] toGenes(String geneString) {
+  public static Gene[] toGenes(String geneString) {
     if (geneString == null)
       throw new IllegalArgumentException("null");
     Gene[] genes = new Gene[geneString.length()];
