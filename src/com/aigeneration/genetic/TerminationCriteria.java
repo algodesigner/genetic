@@ -21,6 +21,10 @@ public class TerminationCriteria {
    *                       applied
    */
   public TerminationCriteria(long maxTime, long maxGenerations) {
+    if (maxTime < -1)
+      throw new IllegalArgumentException("Invalid maxTime");
+    if (maxGenerations < -1)
+      throw new IllegalArgumentException("Invalid maxGenerations");
     this.maxTime = maxTime;
     this.maxGenerations = maxGenerations;
   }

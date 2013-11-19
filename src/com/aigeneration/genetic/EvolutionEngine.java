@@ -3,22 +3,26 @@ package com.aigeneration.genetic;
 /**
  * Evolution engine class.
  * @author Vlad Shurupov
- * @version 1.01
+ * @version 1.02
  */
 public class EvolutionEngine implements IEvolutionEngine {
 
-  private Generation generation;
   private final ISelector selector;
   private final IMutationStrategy mutationStrategy;
   private final IFitnessEvaluator fitnessEvaluator;
   private final boolean elitismEnabled;
-  private TerminationEvaluator terminationEvaluator =
-    new TerminationEvaluator(this);
+  private TerminationEvaluator terminationEvaluator;
 
+  private Generation generation;
   private long generationCount;
   private int bestIndex;
-
   
+  /**
+   * Constructs this evolution engine.
+   * @param generation the initial generation.
+   * @param mutationRate the mutation rate.
+   * @param fitnessEvaluator the fitness evaluator (function).
+   */
   public EvolutionEngine(Generation generation, double mutationRate,
     IFitnessEvaluator fitnessEvaluator)
   {
@@ -43,6 +47,7 @@ public class EvolutionEngine implements IEvolutionEngine {
     this.mutationStrategy = mutationStrategy;
     this.fitnessEvaluator = fitnessEvaluator;
     this.elitismEnabled = elitismEnabled;
+    this.terminationEvaluator = new TerminationEvaluator(this);
   }
 
   /**
@@ -134,13 +139,17 @@ public class EvolutionEngine implements IEvolutionEngine {
   }
  
   /**
-   * Returns the generation count.
-   * @return the generation count
+   * @see com.aigeneration.genetic.IEvolutionEngine#getGenerationCount()
    */
+  @Override
   public long getGenerationCount() {
     return generationCount;
   }
   
+  /**
+   * @see com.aigeneration.genetic.IEvolutionEngine#getBestIndex()
+   */
+  @Override
   public int getBestIndex() {
     return bestIndex;
   }

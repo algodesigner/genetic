@@ -7,7 +7,7 @@ package com.aigeneration.genetic;
  */
 public class Generation {
 
-  private Chromosome[] chromosomes;
+  private final Chromosome[] chromosomes;
 
   public Generation(Chromosome[] chromosomes) {
 

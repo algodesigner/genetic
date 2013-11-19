@@ -23,7 +23,6 @@ public class Chromosome {
   public Chromosome(String geneString, double crossoverRate) {
     this(toGenes(geneString), crossoverRate);
   }
-  
 
   /**
    * Constructs a Chromosome object based on an array of Genea and a custom

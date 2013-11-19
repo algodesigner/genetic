@@ -36,7 +36,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy {
         geneSet1[i] = geneSet2[i];
         geneSet2[i] = temp;
       }
-
       return new ChromosomePair(
         new Chromosome(geneSet1, chromosome1.getCrossoverRate()),
         new Chromosome(geneSet2, chromosome1.getCrossoverRate()));

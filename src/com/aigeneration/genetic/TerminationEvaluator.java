@@ -10,10 +10,13 @@ public class TerminationEvaluator {
   private IEvolutionEngine evolutionEngine;
   private long startTime = -1;
 
+  /**
+   * Constructs this termination evaluator.
+   * @param evolutionEngine an instance of the evolution engine.
+   */
   public TerminationEvaluator(IEvolutionEngine evolutionEngine) {
     if (evolutionEngine == null)
       throw new IllegalArgumentException("null");
-
     this.evolutionEngine = evolutionEngine; 
   }
   

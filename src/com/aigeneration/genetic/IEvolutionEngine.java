@@ -49,5 +49,9 @@ public interface IEvolutionEngine {
    */
   public long getGenerationCount();
   
+  /**
+   * Returns the index of the fittest chromosome in the contained generation.
+   * @return the index of the fittest chromosome.
+   */
   public int getBestIndex();
 }
