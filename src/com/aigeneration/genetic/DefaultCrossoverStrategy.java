@@ -24,7 +24,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy {
   {
     if (random.nextDouble() < chromosome1.getCrossoverRate()) {
 
-    if (!chromosome1.compatible(chromosome2))
+    if (!chromosome1.isCompatible(chromosome2))
       throw new IncompatibleChromosomeException("Crossover cannot be " +
         "as parent chromosomes are not compatible");
 

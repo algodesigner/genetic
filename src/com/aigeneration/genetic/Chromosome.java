@@ -96,7 +96,7 @@ public class Chromosome {
    * @param chromosome the chromosome to test compatibility against
    * @return true, if compatible
    */
-  public boolean compatible(Chromosome chromosome) {
+  public boolean isCompatible(Chromosome chromosome) {
     if (chromosome == null)
       return false;
     return length() == chromosome.length() && 

@@ -53,21 +53,21 @@ public class ChromosomeTest {
   }
   
   @Test
-  public void testCompatible() {
+  public void testIsCompatible() {
     Chromosome c = new Chromosome("ABDBCAA", 0.5);
-    assertFalse(c.compatible(null));
+    assertFalse(c.isCompatible(null));
     
     Chromosome c2 = new Chromosome("ABDBCAAA", 0.5);
-    assertFalse(c.compatible(c2));
-    assertFalse(c2.compatible(c));
+    assertFalse(c.isCompatible(c2));
+    assertFalse(c2.isCompatible(c));
 
     Chromosome c3 = new Chromosome("ZZZZZZZ", 0.5);
-    assertTrue(c.compatible(c3));
-    assertTrue(c3.compatible(c));
+    assertTrue(c.isCompatible(c3));
+    assertTrue(c3.isCompatible(c));
     
     Chromosome c4 = new Chromosome("ABDBCAA", 0.2);
-    assertFalse(c.compatible(c4));
-    assertFalse(c4.compatible(c));
+    assertFalse(c.isCompatible(c4));
+    assertFalse(c4.isCompatible(c));
   }
   
   
