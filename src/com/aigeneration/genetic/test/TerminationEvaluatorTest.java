@@ -85,5 +85,10 @@ public class TerminationEvaluatorTest {
     public int getBestIndex() {
       return 0;
     }
+
+    @Override
+    public double getBestFitnessScore() {
+      return 0;
+    }
   }
 }

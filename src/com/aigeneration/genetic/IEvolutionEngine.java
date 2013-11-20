@@ -54,4 +54,12 @@ public interface IEvolutionEngine {
    * @return the index of the fittest chromosome.
    */
   public int getBestIndex();
+  
+  /**
+   * Returns the best fitness score (i.e. the score of the fittest chromosome)
+   * in the contained generation.
+   * @return the best fitness score.
+   */
+  public double getBestFitnessScore();
+  
 }

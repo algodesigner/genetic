@@ -3,7 +3,7 @@ package com.aigeneration.genetic;
 /**
  * Evolution engine class.
  * @author Vlad Shurupov
- * @version 1.02
+ * @version 1.03
  */
 public class EvolutionEngine implements IEvolutionEngine {
 
@@ -16,6 +16,7 @@ public class EvolutionEngine implements IEvolutionEngine {
   private Generation generation;
   private long generationCount;
   private int bestIndex;
+  private double bestFitnessScore;
   
   /**
    * Constructs this evolution engine.
@@ -54,6 +55,7 @@ public class EvolutionEngine implements IEvolutionEngine {
    * Returns the current generation
    * @return the current generation
    */
+  @Override
   public Generation getGeneration() {
     return generation;
   }
@@ -68,6 +70,7 @@ public class EvolutionEngine implements IEvolutionEngine {
    * @throws IncompatibleChromosomeException
    * @throws TerminationException
    */
+  @Override
   public int findSolution(double fitnessTarget,
     TerminationCriteria terminationCriteria)
     throws IncompatibleChromosomeException, TerminationException
@@ -85,6 +88,7 @@ public class EvolutionEngine implements IEvolutionEngine {
    * Makes a single evolutionary step
    * @throws IncompatibleChromosomeException
    */
+  @Override
   public void step() throws IncompatibleChromosomeException {
     step(-1);    
   }
@@ -96,16 +100,20 @@ public class EvolutionEngine implements IEvolutionEngine {
    *         fitness
    * @throws IncompatibleChromosomeException
    */
+  @Override
   public int step(double fitnessTarget) throws IncompatibleChromosomeException {
 
     // Fitness: Evaluate fitness of each individual chromosome
     double[] fitnessScores = new double[generation.size()];
     bestIndex = 0;
+    bestFitnessScore = 0;
     for (int i = 0; i < fitnessScores.length; i++) {
       fitnessScores[i] =
         fitnessEvaluator.evaluate(generation.getChromosome(i));
-      if (fitnessScores[i] > fitnessScores[bestIndex])
+      if (fitnessScores[i] > fitnessScores[bestIndex]) {
         bestIndex = i;
+        bestFitnessScore = fitnessScores[i];
+      }
       if (fitnessScores[i] >= fitnessTarget) {
         return i;
       }
@@ -152,5 +160,13 @@ public class EvolutionEngine implements IEvolutionEngine {
   @Override
   public int getBestIndex() {
     return bestIndex;
+  }
+
+  /**
+   * @see com.aigeneration.genetic.IEvolutionEngine#getBestFitnessScore()
+   */
+  @Override
+  public double getBestFitnessScore() {
+    return bestFitnessScore;
   }
 }
