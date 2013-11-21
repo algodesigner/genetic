@@ -1,12 +1,4 @@
-import com.aigeneration.genetic.EvolutionEngine;
-import com.aigeneration.genetic.Generation;
-import com.aigeneration.genetic.IEvolutionEngine;
-import com.aigeneration.genetic.IFitnessEvaluator;
-import com.aigeneration.genetic.IMutationStrategy;
-import com.aigeneration.genetic.ISelector;
-import com.aigeneration.genetic.IncompatibleChromosomeException;
-import com.aigeneration.genetic.TerminationCriteria;
-import com.aigeneration.genetic.TerminationException;
+package com.aigeneration.genetic;
 
 public class CompositeEvolutionEngine implements IEvolutionEngine {
   
@@ -35,6 +27,24 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
     }
   }
   
+  /**
+   * Constructs this composite Evolution Engine.
+   * @param generation the initial generation.
+   * @param mutationRate the chromosome mutation rate.
+   * @param fitnessEvaluator the fitness evaluator (a.k.a. fitness function)
+   * @param elitismEnabled <code>true</code> if elitism should be employed
+   *        by this instance.
+   * @param numOfAgents the number of sub-engines the work is delegated to.
+   */
+  public CompositeEvolutionEngine(Generation generation,
+    double mutationRate, IFitnessEvaluator fitnessEvaluator,
+    boolean elitismEnabled, int numOfAgents)
+  {
+    this(generation, new DefaultSelector(),
+      new DefaultMutationStrategy(mutationRate), fitnessEvaluator,
+      elitismEnabled, numOfAgents);
+  }
+
   /**
    * @see com.aigeneration.genetic.IEvolutionEngine#getGeneration()
    */

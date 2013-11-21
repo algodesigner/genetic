@@ -2,8 +2,10 @@ package com.aigeneration.genetic.test;
 
 import org.junit.Test;
 import com.aigeneration.genetic.Chromosome;
+import com.aigeneration.genetic.CompositeEvolutionEngine;
 import com.aigeneration.genetic.EvolutionEngine;
 import com.aigeneration.genetic.Generation;
+import com.aigeneration.genetic.IEvolutionEngine;
 import com.aigeneration.genetic.IFitnessEvaluator;
 import com.aigeneration.genetic.IncompatibleChromosomeException;
 import com.aigeneration.genetic.TerminationCriteria;
@@ -20,17 +22,26 @@ public class MaxAreaTest {
   private static final int POPULATION_SIZE = 256;
   
   @Test
-  public void testMaxArea() throws IncompatibleChromosomeException {
-    
-    EvolutionEngine evolutionEngine =
-      new EvolutionEngine(createInitialGeneration(), MUTATION_RATE,
-        new FitnessEvaluator(200), ELITISM);    
-    
+  public void testMaxAreaSimpleEngine() throws IncompatibleChromosomeException {
+    solveMaxArea(new EvolutionEngine(createInitialGeneration(), MUTATION_RATE,
+        new FitnessEvaluator(200), ELITISM));
+  }
+  
+  @Test
+  public void testMaxAreaCompositeEngine() throws IncompatibleChromosomeException {
+    // TODO Complete the implementation of the composite engine...
+    solveMaxArea(new CompositeEvolutionEngine(createInitialGeneration(), MUTATION_RATE,
+        new FitnessEvaluator(200), ELITISM, 2));
+  }
+  
+  private void solveMaxArea(IEvolutionEngine engine)
+    throws IncompatibleChromosomeException
+  {
     try {
-      evolutionEngine.findSolution(Double.MAX_VALUE, TERMINATION_CRITERIA);
+      engine.findSolution(Double.MAX_VALUE, TERMINATION_CRITERIA);
     } catch (TerminationException e) {
-      Generation generation = evolutionEngine.getGeneration();
-      System.out.println(generation.getChromosome(evolutionEngine.getBestIndex()));
+      Generation generation = engine.getGeneration();
+      System.out.println(generation.getChromosome(engine.getBestIndex()));
     }
   }
   
