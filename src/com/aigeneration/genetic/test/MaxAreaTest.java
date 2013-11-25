@@ -29,9 +29,8 @@ public class MaxAreaTest {
   
   @Test
   public void testMaxAreaCompositeEngine() throws IncompatibleChromosomeException {
-    // TODO Complete the implementation of the composite engine...
     solveMaxArea(new CompositeEvolutionEngine(createInitialGeneration(), MUTATION_RATE,
-        new FitnessEvaluator(200), ELITISM, 2));
+        new FitnessEvaluator(200), ELITISM, 3));
   }
   
   private void solveMaxArea(IEvolutionEngine engine)

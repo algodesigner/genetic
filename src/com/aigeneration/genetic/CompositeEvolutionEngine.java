@@ -4,6 +4,7 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
   
   private final IEvolutionEngine[] engines;
   private Generation generation;
+  private IEvolutionEngine bestEngine;
   
   /**
    * Constructs this composite Evolution Engine.
@@ -50,7 +51,7 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
    */
   @Override
   public Generation getGeneration() {
-    return generation;
+    return bestEngine != null ? bestEngine.getGeneration() : generation;
   }
 
   /**
@@ -59,9 +60,35 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
   @Override
   public int findSolution(double fitnessTarget,
     TerminationCriteria terminationCriteria)
-    throws IncompatibleChromosomeException, TerminationException {
-    // TODO Auto-generated method stub
-    return 0;
+    throws IncompatibleChromosomeException, TerminationException
+  {
+    // TODO Avoid object creation here. Create a new member...
+    TerminationException[] exceptions = new TerminationException[engines.length];
+    double bestOfBestScores = -Double.MIN_VALUE;
+    int bestEngineIndex = 0;
+    
+    for (int i = 0; i < engines.length; i++) {
+      try {
+        engines[i].findSolution(fitnessTarget, terminationCriteria);
+      } catch (TerminationException e) {
+        exceptions[i] = e;
+      }
+      final double bestScore = engines[i].getBestFitnessScore();
+      if (bestScore > bestOfBestScores) {
+        bestOfBestScores = bestScore;
+        bestEngine = engines[i];
+        bestEngineIndex = i;
+      }
+    }
+    // If a engine with the best results has not been identified, return
+    // "null" index
+    if (bestEngine == null)
+      return -1;
+    // If the engine with the best results threw a TerminationException, we
+    // need to re-throw it
+    if (exceptions[bestEngineIndex] != null)
+      throw exceptions[bestEngineIndex];
+    return bestEngine.getBestIndex();
   }
 
   /**
@@ -88,8 +115,7 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
    */
   @Override
   public long getGenerationCount() {
-    // TODO Auto-generated method stub
-    return 0;
+    return bestEngine != null ? bestEngine.getGenerationCount() : 0;
   }
 
   /**
@@ -97,8 +123,8 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
    */
   @Override
   public int getBestIndex() {
-    // TODO Auto-generated method stub
-    return 0;
+    // TODO Legalise -1 return value in the interface
+    return bestEngine != null ? bestEngine.getBestIndex() : -1;
   }
   
   /**
@@ -106,8 +132,8 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
    */
   @Override
   public double getBestFitnessScore() {
-    // TODO Auto-generated method stub
-    return 0;
+    // TODO Legalise Double.NaN return value in the interface definition
+    return bestEngine != null ? bestEngine.getBestFitnessScore() : Double.NaN;
   }    
   
   private static IEvolutionEngine createEngine(Generation generation,
