@@ -87,7 +87,11 @@ public class MaxAreaTest {
       if (x + y > perimeter)
         return 0;
       
-      return x * y;
+      return sig(perimeter, x + y) * (double)x * (double)y;
+    }
+    
+    private static double sig(int n, double x) {
+      return Math.tanh(x * 2.5 / (double)n);
     }
   }
 }
