@@ -13,10 +13,11 @@ public class TerminationExceptionTest {
   public void testNegativeBestIndex() {
     new TerminationException(EXCEPTION_MESSAGE, -1);
   }
-  
+
   @Test
   public void testBehaviour() {
-    TerminationException exception = new TerminationException(EXCEPTION_MESSAGE, BEST_INDEX);
+    TerminationException exception = new TerminationException(
+      EXCEPTION_MESSAGE, BEST_INDEX);
     assertEquals(EXCEPTION_MESSAGE, exception.getMessage());
     assertEquals(BEST_INDEX, exception.getBestIndex());
   }

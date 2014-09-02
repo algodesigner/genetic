@@ -5,6 +5,7 @@ import com.aigeneration.genetic.Chromosome;
 import com.aigeneration.genetic.EvolutionEngine;
 import com.aigeneration.genetic.Gene;
 import com.aigeneration.genetic.Generation;
+import com.aigeneration.genetic.GenerationBuilder;
 import com.aigeneration.genetic.IFitnessEvaluator;
 import com.aigeneration.genetic.IncompatibleChromosomeException;
 import com.aigeneration.genetic.TerminationCriteria;
@@ -44,23 +45,25 @@ public class EvolutionTest {
   }
 
   private static Generation createInitialGeneration() {
-    Chromosome[] chromosomes = {
-      new Chromosome("010101010101010101010101010101010101010101010101", CROSSOVER_RATE),
-      new Chromosome("10101010101010101010101.....01010101010101010101", CROSSOVER_RATE),
-      new Chromosome("01010101010110101.....................0101010101", CROSSOVER_RATE),
-      new Chromosome("10101010101010101010..........101010101010101010", CROSSOVER_RATE),
-      new Chromosome("01010010101010101010101....011010101101010101010", CROSSOVER_RATE),
-      new Chromosome("101010010101010101010101010101101010101010101010", CROSSOVER_RATE),
-      new Chromosome("0101010101010101...10101010101010101101010101010", CROSSOVER_RATE),
-      new Chromosome("1010101010101.........01010101010101010101101010", CROSSOVER_RATE),
-      new Chromosome("01010101.................0101010..........101010", CROSSOVER_RATE),
-      new Chromosome("10101010101............010101010..........101010", CROSSOVER_RATE),
-      new Chromosome("01010101010101010101010101010101...........01010", CROSSOVER_RATE),
-      new Chromosome("101010101010101010010101010101010101010101101010", CROSSOVER_RATE),
-      new Chromosome("010101010101101010101010101010101010101010101010", CROSSOVER_RATE),
-      new Chromosome("101010101010101010101010101010101010101010101010", CROSSOVER_RATE)
-    };
-    return new Generation(chromosomes);
+    GenerationBuilder builder = new GenerationBuilder();
+    builder.setCrossoverRate(CROSSOVER_RATE);
+    
+    builder.addChromosome("010101010101010101010101010101010101010101010101");
+    builder.addChromosome("10101010101010101010101.....01010101010101010101");
+    builder.addChromosome("01010101010110101.....................0101010101");
+    builder.addChromosome("10101010101010101010..........101010101010101010");
+    builder.addChromosome("01010010101010101010101....011010101101010101010");
+    builder.addChromosome("101010010101010101010101010101101010101010101010");
+    builder.addChromosome("0101010101010101...10101010101010101101010101010");
+    builder.addChromosome("1010101010101.........01010101010101010101101010");
+    builder.addChromosome("01010101.................0101010..........101010");
+    builder.addChromosome("10101010101............010101010..........101010");
+    builder.addChromosome("01010101010101010101010101010101...........01010");
+    builder.addChromosome("101010101010101010010101010101010101010101101010");
+    builder.addChromosome("010101010101101010101010101010101010101010101010");
+    builder.addChromosome("101010101010101010101010101010101010101010101010");
+    
+    return builder.build();
   }
 
   private static class FitnessEvaluator implements IFitnessEvaluator {

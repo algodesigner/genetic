@@ -35,6 +35,7 @@ public class Gene {
   /**
    * @see java.lang.Object#equals(java.lang.Object)
    */
+  @Override
   public boolean equals(Object object) {
     if (object == null)
       return false;

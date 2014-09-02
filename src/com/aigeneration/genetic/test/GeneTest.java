@@ -20,9 +20,9 @@ public class GeneTest {
 
   @Test
   public void testEquals() {
-    Gene gene1 = new Gene(new Boolean(true));
-    Gene gene2 = new Gene(new Boolean(false));
-    Gene gene3 = new Gene(new Boolean(true));
+    Gene gene1 = new Gene(true);
+    Gene gene2 = new Gene(false);
+    Gene gene3 = new Gene(true);
     
     assertEquals(gene1, gene1);
     assertEquals(gene1, gene3);
@@ -37,5 +37,4 @@ public class GeneTest {
     Gene gene2 = new Gene(Boolean.TRUE);
     assertEquals(gene1.hashCode(), gene2.hashCode());
   }
-  
 }

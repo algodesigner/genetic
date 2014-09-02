@@ -5,6 +5,7 @@ import com.aigeneration.genetic.Chromosome;
 import com.aigeneration.genetic.CompositeEvolutionEngine;
 import com.aigeneration.genetic.EvolutionEngine;
 import com.aigeneration.genetic.Generation;
+import com.aigeneration.genetic.GenerationBuilder;
 import com.aigeneration.genetic.IEvolutionEngine;
 import com.aigeneration.genetic.IFitnessEvaluator;
 import com.aigeneration.genetic.IncompatibleChromosomeException;
@@ -47,12 +48,13 @@ public class MaxAreaTest {
   private static Generation createInitialGeneration() {
     String s1 = "123456";
     String s2 = "789000";
-    Chromosome[] chromosomes = new Chromosome[POPULATION_SIZE];
+    GenerationBuilder builder = new GenerationBuilder();
+    builder.setCrossoverRate(CROSSOVER_RATE);
     for (int i = 0; i < POPULATION_SIZE; i++) {
       String s = (i & 1) > 0 ? s1 : s2;
-      chromosomes[i] = new Chromosome(s, CROSSOVER_RATE);
+      builder.addChromosome(s);
     }
-    return new Generation(chromosomes);
+    return builder.build();
   }
 
   private static class FitnessEvaluator implements IFitnessEvaluator {
