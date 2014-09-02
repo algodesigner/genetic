@@ -1,4 +1,4 @@
-package com.aigeneration.genetic.test;
+package com.aigeneration.genetic;
 
 import org.junit.Test;
 import com.aigeneration.genetic.Chromosome;

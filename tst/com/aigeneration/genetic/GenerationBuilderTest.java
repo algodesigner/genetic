@@ -1,4 +1,4 @@
-package com.aigeneration.genetic.test;
+package com.aigeneration.genetic;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
