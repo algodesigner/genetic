@@ -18,6 +18,11 @@ public class GenerationBuilder {
     crossoverRateSet = true;
   }
   
+  public void addChromosomes(int instances, String geneString) {
+    for (int i = 0; i < instances; i++)
+      addChromosome(geneString);
+  }
+  
   public void addChromosome(String geneString) {
     if (!crossoverRateSet)
       throw new IllegalStateException("crossoverRate is not set");

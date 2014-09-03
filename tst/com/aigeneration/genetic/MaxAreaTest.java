@@ -34,7 +34,7 @@ public class MaxAreaTest {
         new FitnessEvaluator(200), ELITISM, 3));
   }
   
-  private void solveMaxArea(IEvolutionEngine engine)
+  private static void solveMaxArea(IEvolutionEngine engine)
     throws IncompatibleChromosomeException
   {
     try {
