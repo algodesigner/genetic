@@ -24,6 +24,7 @@ public class SubtractionProblemTest {
       int index = engine.findSolution(1, TERMINATION_CRITERIA);
       Chromosome c = engine.getGeneration().getChromosome(index);
       System.out.println("Raw chromosome: " + c);
+      System.out.println("Generations: " + engine.getGenerationCount());
       System.out.println("Solution:\n" + toSolutionString(c));
     } catch (TerminationException e) {
       e.printStackTrace();
