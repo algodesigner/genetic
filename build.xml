@@ -5,7 +5,7 @@
    <property name="src-dir" location="src"/>
    <property name="jarname" value="aigen-genetic.jar"/>
    <property name="tst-dir" location="tst" />
-   <property name="runclass" value="com.aigeneration.genetic.test.EvolutionTest"/>
+   <property name="runclass" value="com.aigenes.genetic.test.EvolutionTest"/>
    <target name="init">
       <mkdir dir="${obj-dir}"/>
       <mkdir dir="${lib-dir}"/>
