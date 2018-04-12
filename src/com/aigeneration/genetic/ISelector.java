@@ -1,11 +1,12 @@
 package com.aigeneration.genetic;
 
 /**
- * Selects chromosomes for reproduction.
+ * Selects a pair of chromosomes for reproduction.
  * 
  * @author Vlad Shurupov
  * @version 1.0
  */
+@FunctionalInterface
 public interface ISelector {
 
   /**

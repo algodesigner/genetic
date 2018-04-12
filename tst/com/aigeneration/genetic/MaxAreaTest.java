@@ -24,14 +24,16 @@ public class MaxAreaTest {
   
   @Test
   public void testMaxAreaSimpleEngine() throws IncompatibleChromosomeException {
-    solveMaxArea(new EvolutionEngine(createInitialGeneration(), MUTATION_RATE,
-        new FitnessEvaluator(200), ELITISM));
+    solveMaxArea(new EvolutionEngine(createInitialGeneration(), CROSSOVER_RATE,
+      MUTATION_RATE, new FitnessEvaluator(200), ELITISM));
   }
   
   @Test
-  public void testMaxAreaCompositeEngine() throws IncompatibleChromosomeException {
-    solveMaxArea(new CompositeEvolutionEngine(createInitialGeneration(), MUTATION_RATE,
-        new FitnessEvaluator(200), ELITISM, 3));
+  public void testMaxAreaCompositeEngine()
+    throws IncompatibleChromosomeException
+  {
+    solveMaxArea(new CompositeEvolutionEngine(createInitialGeneration(),
+      CROSSOVER_RATE, MUTATION_RATE, new FitnessEvaluator(200), ELITISM, 3));
   }
   
   private static void solveMaxArea(IEvolutionEngine engine)
@@ -49,7 +51,6 @@ public class MaxAreaTest {
     String s1 = "123456";
     String s2 = "789000";
     GenerationBuilder builder = new GenerationBuilder();
-    builder.setCrossoverRate(CROSSOVER_RATE);
     for (int i = 0; i < POPULATION_SIZE; i++) {
       String s = (i & 1) > 0 ? s1 : s2;
       builder.addChromosome(s);
@@ -67,9 +68,6 @@ public class MaxAreaTest {
       this.perimeter = perimeter;
     }
 
-    /**
-     * @see com.aigeneration.genetic.IFitnessEvaluator#evaluate(com.aigeneration.genetic.Chromosome)
-     */
     @Override
     public double evaluate(Chromosome chromosome) {
       

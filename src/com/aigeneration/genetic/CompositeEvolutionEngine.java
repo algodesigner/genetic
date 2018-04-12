@@ -8,40 +8,46 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
   
   /**
    * Constructs this composite Evolution Engine.
+   * 
    * @param generation the initial generation.
    * @param selector the chromosome selection strategy.
+   * @param crossoverStrategy the crossover strategy.
    * @param mutationStrategy the chromosome mutation strategy.
    * @param fitnessEvaluator the fitness evaluator (a.k.a. fitness function)
-   * @param elitismEnabled <code>true</code> if elitism should be employed
-   *        by this instance.
+   * @param elitismEnabled <code>true</code> if elitism should be employed by
+   *        this instance.
    * @param numOfAgents the number of sub-engines the work is delegated to.
    */
   public CompositeEvolutionEngine(Generation generation, ISelector selector,
-    IMutationStrategy mutationStrategy, IFitnessEvaluator fitnessEvaluator,
-    boolean elitismEnabled, int numOfAgents)
+    ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
+    IFitnessEvaluator fitnessEvaluator, boolean elitismEnabled,
+    int numOfAgents)
   {
     this.generation = generation;
     this.engines = new IEvolutionEngine[numOfAgents];
     for (int i = 0; i < numOfAgents; i++) {
-      this.engines[i] = createEngine(generation, selector, mutationStrategy,
-        fitnessEvaluator, elitismEnabled);
+      this.engines[i] = createEngine(generation, selector, crossoverStrategy,
+        mutationStrategy, fitnessEvaluator, elitismEnabled);
     }
   }
   
   /**
    * Constructs this composite Evolution Engine.
+   * 
    * @param generation the initial generation.
+   * @param crossoverRate the crossover rate.
    * @param mutationRate the chromosome mutation rate.
    * @param fitnessEvaluator the fitness evaluator (a.k.a. fitness function)
-   * @param elitismEnabled <code>true</code> if elitism should be employed
-   *        by this instance.
+   * @param elitismEnabled <code>true</code> if elitism should be employed by
+   *        this instance.
    * @param numOfAgents the number of sub-engines the work is delegated to.
    */
-  public CompositeEvolutionEngine(Generation generation,
+  public CompositeEvolutionEngine(Generation generation, double crossoverRate,
     double mutationRate, IFitnessEvaluator fitnessEvaluator,
     boolean elitismEnabled, int numOfAgents)
   {
     this(generation, new DefaultSelector(),
+      new DefaultCrossoverStrategy(crossoverRate),
       new DefaultMutationStrategy(mutationRate), fitnessEvaluator,
       elitismEnabled, numOfAgents);
   }
@@ -137,10 +143,11 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
   }    
   
   private static IEvolutionEngine createEngine(Generation generation,
-    ISelector selector, IMutationStrategy mutationStrategy,
-    IFitnessEvaluator fitnessEvaluator, boolean elitismEnabled)
+    ISelector selector, ICrossoverStrategy crossoverStrategy,
+    IMutationStrategy mutationStrategy, IFitnessEvaluator fitnessEvaluator,
+    boolean elitismEnabled)
   {
-    return new EvolutionEngine(generation, selector, mutationStrategy,
-      fitnessEvaluator, elitismEnabled);
+    return new EvolutionEngine(generation, selector, crossoverStrategy,
+      mutationStrategy, fitnessEvaluator, elitismEnabled);
   }
 }

@@ -6,8 +6,6 @@ import com.aigeneration.genetic.Generation;
 
 public class GenerationTest {
 
-  private static final double CROSSOVER_RATE = 0.7;
-
   @Test(expected = IllegalArgumentException.class)
   public void testNullChromosomes() {
     new Generation(null);
@@ -15,13 +13,13 @@ public class GenerationTest {
   
   @Test(expected = IllegalArgumentException.class)
   public void testUnevenGenerationSize() {
-    Chromosome c = new Chromosome("abc", CROSSOVER_RATE);
+    Chromosome c = new Chromosome("abc");
     new Generation(new Chromosome[] { c });
   }
   
   @Test
   public void testConstruction() {
-    Chromosome c = new Chromosome("abc", CROSSOVER_RATE);
+    Chromosome c = new Chromosome("abc");
     new Generation(new Chromosome[] { c, c });
   }
 

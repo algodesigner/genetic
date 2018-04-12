@@ -3,18 +3,31 @@ package com.aigeneration.genetic;
 import java.util.Random;
 
 /**
+ * Default implementation of the genetic crossover strategy.
+ * 
  * @author Vlad Shurupov
  * @version 1.01
  */
 public class DefaultCrossoverStrategy implements ICrossoverStrategy {
 
-  private Random random = new Random();
+  private final double crossoverRate;
+  private final Random random = new Random();
 
-  public DefaultCrossoverStrategy() {
+  /**
+   * Constructs this crossover strategy.
+   * 
+   * @param crossoverRate the crossover rate; cannot be less than zero.
+   */
+  public DefaultCrossoverStrategy(double crossoverRate) {
+    if (crossoverRate < 0)
+      throw new IllegalArgumentException(
+        "crossover rate cannot be less" + " than zero");
+    this.crossoverRate = crossoverRate;
   }
 
   /**
    * Performs a crossover on two given chromosomes
+   * 
    * @param chromosome1 the first chromosome
    * @param chromosome2 the second chromosome
    * @return the resulting offspring
@@ -22,11 +35,11 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy {
   public ChromosomePair crossover(Chromosome chromosome1,
     Chromosome chromosome2) throws IncompatibleChromosomeException
   {
-    if (random.nextDouble() < chromosome1.getCrossoverRate()) {
+    if (random.nextDouble() < crossoverRate) {
 
-    if (!chromosome1.isCompatible(chromosome2))
-      throw new IncompatibleChromosomeException("Crossover cannot be " +
-        "as parent chromosomes are not compatible");
+      if (!chromosome1.isCompatible(chromosome2))
+        throw new IncompatibleChromosomeException(
+          "Crossover cannot be " + "as parent chromosomes are not compatible");
 
       int position = random.nextInt(chromosome1.length());
       Gene[] geneSet1 = chromosome1.getGenes();
@@ -36,9 +49,8 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy {
         geneSet1[i] = geneSet2[i];
         geneSet2[i] = temp;
       }
-      return new ChromosomePair(
-        new Chromosome(geneSet1, chromosome1.getCrossoverRate()),
-        new Chromosome(geneSet2, chromosome1.getCrossoverRate()));
+      return new ChromosomePair(new Chromosome(geneSet1),
+        new Chromosome(geneSet2));
     } else {
       return new ChromosomePair(chromosome1, chromosome2);
     }

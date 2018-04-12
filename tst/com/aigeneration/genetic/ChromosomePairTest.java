@@ -1,32 +1,31 @@
 package com.aigeneration.genetic;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
-import com.aigeneration.genetic.Chromosome;
-import com.aigeneration.genetic.ChromosomePair;
 
 
 public class ChromosomePairTest {
 
   @Test
   public void testConstruction() {
-    new ChromosomePair(new Chromosome("ABC", 0.2), new Chromosome("DEF", 0.2));
+    new ChromosomePair(new Chromosome("ABC"), new Chromosome("DEF"));
   }
   
   @Test(expected = IllegalArgumentException.class)
   public void testNullFirstArg() {
-    new ChromosomePair(null, new Chromosome("DEF", 0.2));
+    new ChromosomePair(null, new Chromosome("DEF"));
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testNullSecondArg() {
-    new ChromosomePair(new Chromosome("ABC", 0.2), null);
+    new ChromosomePair(new Chromosome("ABC"), null);
   }
   
   @Test
   public void testBehaviour() {
-    Chromosome c = new Chromosome("ABC", 0.2);
-    Chromosome c2 = new Chromosome("DEF", 0.7);
+    Chromosome c = new Chromosome("ABC");
+    Chromosome c2 = new Chromosome("DEF");
     ChromosomePair pair = new ChromosomePair(c, c2);
     assertEquals(c, pair.getFirst());
     assertEquals(c2, pair.getSecond());

@@ -15,40 +15,21 @@ package com.aigeneration.genetic;
 public class Chromosome {
 
   private final Gene[] genes;
-  private final ICrossoverStrategy crossoverStrategy;
-  private final double crossoverRate;
 
-  /**
-   * Constructs a Chromosome object based on an array of Genes. Default
-   * crossover strategy is applied.
-   * @param genes the array of genes
-   */
-  public Chromosome(Gene[] genes, double crossoverRate) {
-    this(genes, new DefaultCrossoverStrategy(), crossoverRate);
-  }
-
-  public Chromosome(String geneString, double crossoverRate) {
-    this(toGenes(geneString), crossoverRate);
+  public Chromosome(String geneString) {
+    this(toGenes(geneString));
   }
 
   /**
    * Constructs a Chromosome object based on an array of Genea and a custom
    * crossover strategy
    * @param genes the array of genes
-   * @param crossoverStrategy a custom crossover strategy
    */
-  public Chromosome(Gene[] genes, ICrossoverStrategy crossoverStrategy,
-    double crossoverRate)
+  public Chromosome(Gene[] genes)
   {
-    if (genes == null || crossoverStrategy == null)
+    if (genes == null)
       throw new IllegalArgumentException("null");
-    if (crossoverRate < 0)
-      throw new IllegalArgumentException("crossover rate cannot be less" +
-        " than zero");
-
     this.genes = genes;
-    this.crossoverStrategy = crossoverStrategy;
-    this.crossoverRate = crossoverRate;
   }
 
   /**
@@ -79,35 +60,12 @@ public class Chromosome {
   }
 
   /**
-   * Performs a crossover of this chromosome with a given chromosome without a
-   * mutation.
-   * @param chromosome the chromosome to cross over with
-   * @return the new offspring
-   */
-  public ChromosomePair crossover(Chromosome chromosome)
-    throws IncompatibleChromosomeException
-  {
-    return crossoverStrategy.crossover(this, chromosome);
-  }
-
-  /**
-   * Returns the crossover rate for this chromosome.
-   * @return double the crossover rate
-   */
-  public double getCrossoverRate() {
-    return crossoverRate;
-  }
-  
-  /**
    * Tests if this chromosome is compatible with a given chromosome.
    * @param chromosome the chromosome to test compatibility against
    * @return true, if compatible
    */
   public boolean isCompatible(Chromosome chromosome) {
-    if (chromosome == null)
-      return false;
-    return length() == chromosome.length() && 
-      getCrossoverRate() == chromosome.getCrossoverRate();      
+    return chromosome != null && length() == chromosome.length();      
   }
 
   /**
@@ -123,7 +81,7 @@ public class Chromosome {
   
   /**
    * Converts a string into a gene sequence.
-   * @param geneString a string with each character represeting a gene.
+   * @param geneString a string with each character representing a gene.
    * @return a gene sequence.
    */
   public static Gene[] toGenes(String geneString) {

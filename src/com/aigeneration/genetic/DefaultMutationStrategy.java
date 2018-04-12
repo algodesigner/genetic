@@ -27,7 +27,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
       Gene temp = genes[index1];
       genes[index1] = genes[index2];
       genes[index2] = temp;
-      return new Chromosome(genes, offspring.getCrossoverRate());
+      return new Chromosome(genes);
     } else {
       return offspring;
     }

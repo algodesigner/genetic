@@ -1,13 +1,17 @@
 package com.aigeneration.genetic;
 
+import java.util.Objects;
+
 /**
  * Evolution engine class.
+ * 
  * @author Vlad Shurupov
  * @version 1.03
  */
 public class EvolutionEngine implements IEvolutionEngine {
 
   private final ISelector selector;
+  private final ICrossoverStrategy crossoverStrategy;
   private final IMutationStrategy mutationStrategy;
   private final IFitnessEvaluator fitnessEvaluator;
   private final boolean elitismEnabled;
@@ -20,33 +24,39 @@ public class EvolutionEngine implements IEvolutionEngine {
   
   /**
    * Constructs this evolution engine.
+   * 
    * @param generation the initial generation.
+   * @param crossoverRate the crossover rate.
    * @param mutationRate the mutation rate.
    * @param fitnessEvaluator the fitness evaluator (function).
    */
-  public EvolutionEngine(Generation generation, double mutationRate,
-    IFitnessEvaluator fitnessEvaluator)
+  public EvolutionEngine(Generation generation, double crossoverRate,
+    double mutationRate, IFitnessEvaluator fitnessEvaluator)
   {
     this(generation, new DefaultSelector(),
+      new DefaultCrossoverStrategy(crossoverRate),
       new DefaultMutationStrategy(mutationRate), fitnessEvaluator, false);
   }
-  
-  public EvolutionEngine(Generation generation, double mutationRate,
-    IFitnessEvaluator fitnessEvaluator, boolean elitismEnabled)
+
+  public EvolutionEngine(Generation generation, double crossoverRate,
+    double mutationRate, IFitnessEvaluator fitnessEvaluator,
+    boolean elitismEnabled)
   {
     this(generation, new DefaultSelector(),
+      new DefaultCrossoverStrategy(crossoverRate),
       new DefaultMutationStrategy(mutationRate), fitnessEvaluator,
       elitismEnabled);
   }
   
   public EvolutionEngine(Generation generation, ISelector selector,
-    IMutationStrategy mutationStrategy, IFitnessEvaluator fitnessEvaluator,
-    boolean elitismEnabled)
+    ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
+    IFitnessEvaluator fitnessEvaluator, boolean elitismEnabled)
   {
-    this.generation = generation;
-    this.selector = selector;
-    this.mutationStrategy = mutationStrategy;
-    this.fitnessEvaluator = fitnessEvaluator;
+    this.generation = Objects.requireNonNull(generation);
+    this.selector = Objects.requireNonNull(selector);
+    this.crossoverStrategy = Objects.requireNonNull(crossoverStrategy);
+    this.mutationStrategy = Objects.requireNonNull(mutationStrategy);
+    this.fitnessEvaluator = Objects.requireNonNull(fitnessEvaluator);
     this.elitismEnabled = elitismEnabled;
     this.terminationEvaluator = new TerminationEvaluator(this);
   }
@@ -110,6 +120,9 @@ public class EvolutionEngine implements IEvolutionEngine {
     for (int i = 0; i < fitnessScores.length; i++) {
       fitnessScores[i] =
         fitnessEvaluator.evaluate(generation.getChromosome(i));
+      if (Double.isNaN(fitnessScores[i]))
+        throw new IllegalStateException(
+          "Invalid score (NaN) for chromosome: " + generation.getChromosome(i));
       if (fitnessScores[i] > fitnessScores[bestIndex]) {
         bestIndex = i;
         bestFitnessScore = fitnessScores[i];
@@ -134,7 +147,7 @@ public class EvolutionEngine implements IEvolutionEngine {
 
       // Crossover: Cross over two parents to form a new offspring
       ChromosomePair offspringPair =
-        pair.getFirst().crossover(pair.getSecond());
+        crossoverStrategy.crossover(pair.getFirst(), pair.getSecond());        
 
       // Mutation: Mutate new offspring
       offspring[i] = mutationStrategy.mutate(offspringPair.getFirst());

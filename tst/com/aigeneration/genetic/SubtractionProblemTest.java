@@ -32,13 +32,12 @@ public class SubtractionProblemTest {
   }
 
   private static IEvolutionEngine createEvolutionEngine() {
-    return new EvolutionEngine(createInitGeneration(), MUTATION_RATE,
-      new FitnessEvaluator(), ELITISM);
+    return new EvolutionEngine(createInitGeneration(), CROSSOVER_RATE,
+      MUTATION_RATE, new FitnessEvaluator(), ELITISM);
   }
 
   private static Generation createInitGeneration() {
     GenerationBuilder builder = new GenerationBuilder();
-    builder.setCrossoverRate(CROSSOVER_RATE);
     builder.addChromosomes(POPULATION_SIZE, "123456789");
     return builder.build();
   }

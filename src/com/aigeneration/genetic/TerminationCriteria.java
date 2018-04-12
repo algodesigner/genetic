@@ -14,11 +14,11 @@ public class TerminationCriteria {
 
   /**
    * Constructs a TerminationCriteria object.
-   * @param maxTime The maximum time allowed for a genetic search. Use -1 if
-   *                time constraint is not to be applied
+   * 
+   * @param maxTime The maximum time allowed for a genetic search in
+   *        milliseconds. Use -1 if time constraint is not to be applied
    * @param maxGenerations The maximum number of generations allowed in a
-   *                       genetic search. Use -1 if not this limit is not to be
-   *                       applied
+   *        genetic search. Use -1 if not this limit is not to be applied
    */
   public TerminationCriteria(long maxTime, long maxGenerations) {
     if (maxTime < -1)
@@ -31,6 +31,7 @@ public class TerminationCriteria {
 
   /**
    * Returns the maximum time allowed for a genetic search
+   * 
    * @return the maximum time allowed for a genetic search
    */
   public long getMaxTime() {
@@ -39,6 +40,7 @@ public class TerminationCriteria {
 
   /**
    * Returns the maximum number of generations allowed in a genetic search
+   * 
    * @return the maximum number of generations
    */
   public long getMaxGenerations() {
