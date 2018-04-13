@@ -1,5 +1,6 @@
 package com.aigenes.genetic;
 
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -11,18 +12,30 @@ import java.util.Random;
 public class DefaultCrossoverStrategy implements ICrossoverStrategy {
 
   private final double crossoverRate;
-  private final Random random = new Random();
+  private final Random random;
 
   /**
    * Constructs this crossover strategy.
    * 
    * @param crossoverRate the crossover rate; cannot be less than zero.
+   * @param random a pseudorandom number generator; cannot be code {@code null}.
    */
   public DefaultCrossoverStrategy(double crossoverRate) {
+    this(crossoverRate, new Random());
+  }
+
+  /**
+   * Constructs this crossover strategy.
+   * 
+   * @param crossoverRate the crossover rate; cannot be less than zero.
+   * @param random a pseudorandom number generator; cannot be code {@code null}.
+   */
+  public DefaultCrossoverStrategy(double crossoverRate, Random random) {
     if (crossoverRate < 0)
       throw new IllegalArgumentException(
-        "crossover rate cannot be less" + " than zero");
+        "crossover rate cannot be less than zero");
     this.crossoverRate = crossoverRate;
+    this.random = Objects.requireNonNull(random);
   }
 
   /**

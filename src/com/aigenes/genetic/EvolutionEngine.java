@@ -13,7 +13,7 @@ public class EvolutionEngine implements IEvolutionEngine {
   private final ISelector selector;
   private final ICrossoverStrategy crossoverStrategy;
   private final IMutationStrategy mutationStrategy;
-  private final IFitnessEvaluator fitnessEvaluator;
+  private final IFitnessFunction fitnessFunction;
   private final boolean elitismEnabled;
   private TerminationEvaluator terminationEvaluator;
 
@@ -21,48 +21,49 @@ public class EvolutionEngine implements IEvolutionEngine {
   private long generationCount;
   private int bestIndex;
   private double bestFitnessScore;
-  
+
   /**
    * Constructs this evolution engine.
    * 
    * @param generation the initial generation.
    * @param crossoverRate the crossover rate.
    * @param mutationRate the mutation rate.
-   * @param fitnessEvaluator the fitness evaluator (function).
+   * @param fitnessFunction the fitness function.
    */
   public EvolutionEngine(Generation generation, double crossoverRate,
-    double mutationRate, IFitnessEvaluator fitnessEvaluator)
+    double mutationRate, IFitnessFunction fitnessFunction)
   {
     this(generation, new DefaultSelector(),
       new DefaultCrossoverStrategy(crossoverRate),
-      new DefaultMutationStrategy(mutationRate), fitnessEvaluator, false);
+      new DefaultMutationStrategy(mutationRate), fitnessFunction, false);
   }
 
   public EvolutionEngine(Generation generation, double crossoverRate,
-    double mutationRate, IFitnessEvaluator fitnessEvaluator,
+    double mutationRate, IFitnessFunction fitnessFunction,
     boolean elitismEnabled)
   {
     this(generation, new DefaultSelector(),
       new DefaultCrossoverStrategy(crossoverRate),
-      new DefaultMutationStrategy(mutationRate), fitnessEvaluator,
+      new DefaultMutationStrategy(mutationRate), fitnessFunction,
       elitismEnabled);
   }
-  
+
   public EvolutionEngine(Generation generation, ISelector selector,
     ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
-    IFitnessEvaluator fitnessEvaluator, boolean elitismEnabled)
+    IFitnessFunction fitnessFunction, boolean elitismEnabled)
   {
     this.generation = Objects.requireNonNull(generation);
     this.selector = Objects.requireNonNull(selector);
     this.crossoverStrategy = Objects.requireNonNull(crossoverStrategy);
     this.mutationStrategy = Objects.requireNonNull(mutationStrategy);
-    this.fitnessEvaluator = Objects.requireNonNull(fitnessEvaluator);
+    this.fitnessFunction = Objects.requireNonNull(fitnessFunction);
     this.elitismEnabled = elitismEnabled;
     this.terminationEvaluator = new TerminationEvaluator(this);
   }
 
   /**
    * Returns the current generation
+   * 
    * @return the current generation
    */
   @Override
@@ -72,11 +73,11 @@ public class EvolutionEngine implements IEvolutionEngine {
 
   /**
    * Attempts to find a solution through a series of evolutionary steps.
+   * 
    * @param fitnessTarget the fitness target
-   * @param terminationCriteria the termination criteria (<tt>null</tt> if
-   *                            not applicable)
-   * @return the index of the first chromosome that achieved the target
-   *         fitness
+   * @param terminationCriteria the termination criteria (<tt>null</tt> if not
+   *        applicable)
+   * @return the index of the first chromosome that achieved the target fitness
    * @throws IncompatibleChromosomeException
    * @throws TerminationException
    */
@@ -96,18 +97,19 @@ public class EvolutionEngine implements IEvolutionEngine {
 
   /**
    * Makes a single evolutionary step
+   * 
    * @throws IncompatibleChromosomeException
    */
   @Override
   public void step() throws IncompatibleChromosomeException {
-    step(-1);    
+    step(-1);
   }
 
   /**
    * Makes a single evolutionary step.
+   * 
    * @param fitnessTarget the fitness target
-   * @return the index of the first chromosome that achieved the target
-   *         fitness
+   * @return the index of the first chromosome that achieved the target fitness
    * @throws IncompatibleChromosomeException
    */
   @Override
@@ -118,8 +120,7 @@ public class EvolutionEngine implements IEvolutionEngine {
     bestIndex = 0;
     bestFitnessScore = 0;
     for (int i = 0; i < fitnessScores.length; i++) {
-      fitnessScores[i] =
-        fitnessEvaluator.evaluate(generation.getChromosome(i));
+      fitnessScores[i] = fitnessFunction.apply(generation.getChromosome(i));
       if (Double.isNaN(fitnessScores[i]))
         throw new IllegalStateException(
           "Invalid score (NaN) for chromosome: " + generation.getChromosome(i));
@@ -131,7 +132,7 @@ public class EvolutionEngine implements IEvolutionEngine {
         return i;
       }
     }
-    
+
     // New population: Produce offsprings that form a new generation
     Chromosome[] offspring = new Chromosome[generation.size()];
 
@@ -147,7 +148,7 @@ public class EvolutionEngine implements IEvolutionEngine {
 
       // Crossover: Cross over two parents to form a new offspring
       ChromosomePair offspringPair =
-        crossoverStrategy.crossover(pair.getFirst(), pair.getSecond());        
+        crossoverStrategy.crossover(pair.getFirst(), pair.getSecond());
 
       // Mutation: Mutate new offspring
       offspring[i] = mutationStrategy.mutate(offspringPair.getFirst());
@@ -158,26 +159,17 @@ public class EvolutionEngine implements IEvolutionEngine {
     generationCount++;
     return -1;
   }
- 
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#getGenerationCount()
-   */
+
   @Override
   public long getGenerationCount() {
     return generationCount;
   }
-  
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#getBestIndex()
-   */
+
   @Override
   public int getBestIndex() {
     return bestIndex;
   }
 
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#getBestFitnessScore()
-   */
   @Override
   public double getBestFitnessScore() {
     return bestFitnessScore;

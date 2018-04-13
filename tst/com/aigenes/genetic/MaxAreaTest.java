@@ -8,7 +8,7 @@ import com.aigenes.genetic.EvolutionEngine;
 import com.aigenes.genetic.Generation;
 import com.aigenes.genetic.GenerationBuilder;
 import com.aigenes.genetic.IEvolutionEngine;
-import com.aigenes.genetic.IFitnessEvaluator;
+import com.aigenes.genetic.IFitnessFunction;
 import com.aigenes.genetic.IncompatibleChromosomeException;
 import com.aigenes.genetic.TerminationCriteria;
 import com.aigenes.genetic.TerminationException;
@@ -26,7 +26,7 @@ public class MaxAreaTest {
   @Test
   public void testMaxAreaSimpleEngine() throws IncompatibleChromosomeException {
     solveMaxArea(new EvolutionEngine(createInitialGeneration(), CROSSOVER_RATE,
-      MUTATION_RATE, new FitnessEvaluator(200), ELITISM));
+      MUTATION_RATE, new FitnessFunction(200), ELITISM));
   }
   
   @Test
@@ -34,7 +34,7 @@ public class MaxAreaTest {
     throws IncompatibleChromosomeException
   {
     solveMaxArea(new CompositeEvolutionEngine(createInitialGeneration(),
-      CROSSOVER_RATE, MUTATION_RATE, new FitnessEvaluator(200), ELITISM, 3));
+      CROSSOVER_RATE, MUTATION_RATE, new FitnessFunction(200), ELITISM, 3));
   }
   
   private static void solveMaxArea(IEvolutionEngine engine)
@@ -59,18 +59,18 @@ public class MaxAreaTest {
     return builder.build();
   }
 
-  private static class FitnessEvaluator implements IFitnessEvaluator {
+  private static class FitnessFunction implements IFitnessFunction {
     
     private final int perimeter;
     
-    public FitnessEvaluator(int perimeter) {
+    public FitnessFunction(int perimeter) {
       if (perimeter < 0)
         throw new IllegalArgumentException("perimeter cannot be negative");
       this.perimeter = perimeter;
     }
 
     @Override
-    public double evaluate(Chromosome chromosome) {
+    public double apply(Chromosome chromosome) {
       
       if (chromosome.length() != 6)
         throw new IllegalArgumentException("Invalid chromosome");

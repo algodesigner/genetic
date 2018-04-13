@@ -1,16 +1,18 @@
 package com.aigenes.genetic;
 
 /**
- * Fitness Evaluator Interface
+ * Fitness function interface definition.
+ * 
  * @author Vlad Shurupov
  * @version 1.0
  */
-public interface IFitnessEvaluator {
-  
+public interface IFitnessFunction {
+
   /**
    * Returns the fitness value of the specified Chromosome.
+   * 
    * @param chromosome the Chromosome that needs to be evaluated.
    * @return the fitness value.
    */
-  public double evaluate(Chromosome chromosome);
+  public double apply(Chromosome chromosome);
 }

@@ -7,7 +7,7 @@ import com.aigenes.genetic.EvolutionEngine;
 import com.aigenes.genetic.Generation;
 import com.aigenes.genetic.GenerationBuilder;
 import com.aigenes.genetic.IEvolutionEngine;
-import com.aigenes.genetic.IFitnessEvaluator;
+import com.aigenes.genetic.IFitnessFunction;
 import com.aigenes.genetic.IncompatibleChromosomeException;
 import com.aigenes.genetic.TerminationCriteria;
 import com.aigenes.genetic.TerminationException;
@@ -43,7 +43,7 @@ public class SubtractionProblemTest {
 
   private static IEvolutionEngine createEvolutionEngine() {
     return new EvolutionEngine(createInitGeneration(), CROSSOVER_RATE,
-      MUTATION_RATE, new FitnessEvaluator(), ELITISM);
+      MUTATION_RATE, new FitnessFunction(), ELITISM);
   }
 
   private static Generation createInitGeneration() {
@@ -70,12 +70,12 @@ public class SubtractionProblemTest {
     return sb.toString();
   }
 
-  private static class FitnessEvaluator implements IFitnessEvaluator {
+  private static class FitnessFunction implements IFitnessFunction {
 
     private static final int CHROMOSOME_LENGTH = 9;
 
     @Override
-    public double evaluate(Chromosome chromosome) {
+    public double apply(Chromosome chromosome) {
 
       if (chromosome.length() != CHROMOSOME_LENGTH)
         throw new IllegalArgumentException("Invalid chromosome legnth "

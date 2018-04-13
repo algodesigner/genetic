@@ -13,21 +13,21 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
    * @param selector the chromosome selection strategy.
    * @param crossoverStrategy the crossover strategy.
    * @param mutationStrategy the chromosome mutation strategy.
-   * @param fitnessEvaluator the fitness evaluator (a.k.a. fitness function)
+   * @param fitnessFunction the fitness function (a.k.a. fitness function)
    * @param elitismEnabled <code>true</code> if elitism should be employed by
    *        this instance.
    * @param numOfAgents the number of sub-engines the work is delegated to.
    */
   public CompositeEvolutionEngine(Generation generation, ISelector selector,
     ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
-    IFitnessEvaluator fitnessEvaluator, boolean elitismEnabled,
+    IFitnessFunction fitnessFunction, boolean elitismEnabled,
     int numOfAgents)
   {
     this.generation = generation;
     this.engines = new IEvolutionEngine[numOfAgents];
     for (int i = 0; i < numOfAgents; i++) {
       this.engines[i] = createEngine(generation, selector, crossoverStrategy,
-        mutationStrategy, fitnessEvaluator, elitismEnabled);
+        mutationStrategy, fitnessFunction, elitismEnabled);
     }
   }
   
@@ -37,32 +37,26 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
    * @param generation the initial generation.
    * @param crossoverRate the crossover rate.
    * @param mutationRate the chromosome mutation rate.
-   * @param fitnessEvaluator the fitness evaluator (a.k.a. fitness function)
+   * @param fitnessFunction the fitness function.
    * @param elitismEnabled <code>true</code> if elitism should be employed by
    *        this instance.
    * @param numOfAgents the number of sub-engines the work is delegated to.
    */
   public CompositeEvolutionEngine(Generation generation, double crossoverRate,
-    double mutationRate, IFitnessEvaluator fitnessEvaluator,
+    double mutationRate, IFitnessFunction fitnessFunction,
     boolean elitismEnabled, int numOfAgents)
   {
     this(generation, new DefaultSelector(),
       new DefaultCrossoverStrategy(crossoverRate),
-      new DefaultMutationStrategy(mutationRate), fitnessEvaluator,
+      new DefaultMutationStrategy(mutationRate), fitnessFunction,
       elitismEnabled, numOfAgents);
   }
 
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#getGeneration()
-   */
   @Override
   public Generation getGeneration() {
     return bestEngine != null ? bestEngine.getGeneration() : generation;
   }
 
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#findSolution(double, com.aigenes.genetic.TerminationCriteria)
-   */
   @Override
   public int findSolution(double fitnessTarget,
     TerminationCriteria terminationCriteria)
@@ -97,18 +91,12 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
     return bestEngine.getBestIndex();
   }
 
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#step()
-   */
   @Override
   public void step() throws IncompatibleChromosomeException {
     for (int i = 0; i < engines.length; i++)
       engines[i].step();
   }
 
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#step(double)
-   */
   @Override
   public int step(double fitnessTarget) throws IncompatibleChromosomeException {
     for (int i = 0; i < engines.length; i++)
@@ -116,26 +104,17 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
     return 0;
   }
 
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#getGenerationCount()
-   */
   @Override
   public long getGenerationCount() {
     return bestEngine != null ? bestEngine.getGenerationCount() : 0;
   }
 
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#getBestIndex()
-   */
   @Override
   public int getBestIndex() {
     // TODO Legalise -1 return value in the interface
     return bestEngine != null ? bestEngine.getBestIndex() : -1;
   }
   
-  /**
-   * @see com.aigenes.genetic.IEvolutionEngine#getBestFitnessScore()
-   */
   @Override
   public double getBestFitnessScore() {
     // TODO Legalise Double.NaN return value in the interface definition
@@ -144,10 +123,10 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
   
   private static IEvolutionEngine createEngine(Generation generation,
     ISelector selector, ICrossoverStrategy crossoverStrategy,
-    IMutationStrategy mutationStrategy, IFitnessEvaluator fitnessEvaluator,
+    IMutationStrategy mutationStrategy, IFitnessFunction fitnessFunction,
     boolean elitismEnabled)
   {
     return new EvolutionEngine(generation, selector, crossoverStrategy,
-      mutationStrategy, fitnessEvaluator, elitismEnabled);
+      mutationStrategy, fitnessFunction, elitismEnabled);
   }
 }
