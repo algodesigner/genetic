@@ -84,12 +84,12 @@ public class EvolutionEngine implements IEvolutionEngine {
   @Override
   public int findSolution(double fitnessTarget,
     TerminationCriteria terminationCriteria)
-    throws IncompatibleChromosomeException, TerminationException
   {
     int index;
     do {
-      if (terminationCriteria != null)
-        terminationEvaluator.evaluate(terminationCriteria, bestIndex);
+      if (terminationCriteria != null
+        && !terminationEvaluator.evaluate(terminationCriteria, bestIndex))
+        return -1;
       index = step(fitnessTarget);
     } while (index == -1);
     return index;
@@ -101,7 +101,7 @@ public class EvolutionEngine implements IEvolutionEngine {
    * @throws IncompatibleChromosomeException
    */
   @Override
-  public void step() throws IncompatibleChromosomeException {
+  public void step() {
     step(-1);
   }
 
@@ -113,7 +113,7 @@ public class EvolutionEngine implements IEvolutionEngine {
    * @throws IncompatibleChromosomeException
    */
   @Override
-  public int step(double fitnessTarget) throws IncompatibleChromosomeException {
+  public int step(double fitnessTarget) {
 
     // Fitness: Evaluate fitness of each individual chromosome
     double[] fitnessScores = new double[generation.size()];

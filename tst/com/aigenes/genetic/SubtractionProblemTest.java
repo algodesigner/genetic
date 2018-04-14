@@ -2,16 +2,6 @@ package com.aigenes.genetic;
 
 import org.junit.Test;
 
-import com.aigenes.genetic.Chromosome;
-import com.aigenes.genetic.EvolutionEngine;
-import com.aigenes.genetic.Generation;
-import com.aigenes.genetic.GenerationBuilder;
-import com.aigenes.genetic.IEvolutionEngine;
-import com.aigenes.genetic.IFitnessFunction;
-import com.aigenes.genetic.IncompatibleChromosomeException;
-import com.aigenes.genetic.TerminationCriteria;
-import com.aigenes.genetic.TerminationException;
-
 public class SubtractionProblemTest {
 
   private static final double CROSSOVER_RATE = 0.7;
@@ -19,26 +9,20 @@ public class SubtractionProblemTest {
   private static final boolean ELITISM = true;
   private static final int POPULATION_SIZE = 256;
 
-  private static final TerminationCriteria TERMINATION_CRITERIA = new TerminationCriteria(
-    1000 * 3, 3000);
+  private static final TerminationCriteria TERMINATION_CRITERIA =
+    new TerminationCriteria(1000 * 3, 3000);
 
   @Test
   public void testEvolution() throws IncompatibleChromosomeException {
     trySolveProblem(createEvolutionEngine());
   }
 
-  private static void trySolveProblem(IEvolutionEngine engine)
-    throws IncompatibleChromosomeException
-  {
-    try {
-      int index = engine.findSolution(1, TERMINATION_CRITERIA);
-      Chromosome c = engine.getGeneration().getChromosome(index);
-      System.out.println("Raw chromosome: " + c);
-      System.out.println("Generations: " + engine.getGenerationCount());
-      System.out.println("Solution:\n" + toSolutionString(c));
-    } catch (TerminationException e) {
-      e.printStackTrace();
-    }
+  private static void trySolveProblem(IEvolutionEngine engine) {
+    int index = engine.findSolution(1, TERMINATION_CRITERIA);
+    Chromosome c = engine.getGeneration().getChromosome(index);
+    System.out.println("Raw chromosome: " + c);
+    System.out.println("Generations: " + engine.getGenerationCount());
+    System.out.println("Solution:\n" + toSolutionString(c));
   }
 
   private static IEvolutionEngine createEvolutionEngine() {
@@ -51,7 +35,7 @@ public class SubtractionProblemTest {
     builder.addChromosomes(POPULATION_SIZE, "123456789");
     return builder.build();
   }
-  
+
   private static String toSolutionString(Chromosome chromosome) {
     final String cs = chromosome.toString();
     char a = cs.charAt(0);
@@ -61,7 +45,7 @@ public class SubtractionProblemTest {
     int vb = b - '0';
     int vc = c - '0';
     int result = (vc * 100 + vb * 10 + va) - (va * 100 + vb * 10 + vc);
-    
+
     StringBuilder sb = new StringBuilder();
     sb.append("  ").append(c).append(b).append(a).append('\n');
     sb.append("- ").append(a).append(b).append(c).append('\n');

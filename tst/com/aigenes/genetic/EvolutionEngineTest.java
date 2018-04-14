@@ -20,7 +20,7 @@ public class EvolutionEngineTest {
   private static final TerminationCriteria TERMINATION_CRITERIA =
     new TerminationCriteria(1000 * 60 * 3, 10000);
   private static final long SEED = 314159265;
-  
+
   /*
    * This fitness function favours one dominating gene, be it '0' or '1'. The
    * '.' gene is considered useless.
@@ -40,16 +40,12 @@ public class EvolutionEngineTest {
   };
 
   @Test
-  public void testEvolution()
-    throws IncompatibleChromosomeException, TerminationException
-  {
+  public void testEvolution() {
     checkEvolution(true);
     checkEvolution(false);
   }
 
-  private static void checkEvolution(boolean elitism)
-    throws IncompatibleChromosomeException, TerminationException
-  {
+  private static void checkEvolution(boolean elitism) {
     // Seed the pseudorandom number generator to achieve predictable results
     Random random = new Random(SEED);
     EvolutionEngine engine = new EvolutionEngine(createInitialGeneration(),
@@ -81,18 +77,14 @@ public class EvolutionEngineTest {
   }
 
   @Test(expected = IllegalStateException.class)
-  public void testNaNScore()
-    throws IncompatibleChromosomeException, TerminationException
-  {
+  public void testNaNScore() {
     EvolutionEngine engine = new EvolutionEngine(createInitialGeneration(),
       CROSSOVER_RATE, MUTATION_RATE, $ -> Double.NaN);
     engine.findSolution(1, TERMINATION_CRITERIA);
   }
 
   @Test
-  public void testWithoutTerminationCriteria()
-    throws IncompatibleChromosomeException, TerminationException
-  {
+  public void testWithoutTerminationCriteria() {
     // Seed the pseudorandom number generator to achieve predictable results
     Random random = new Random(SEED);
     EvolutionEngine engine = new EvolutionEngine(createInitialGeneration(),

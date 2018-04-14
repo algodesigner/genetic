@@ -1,11 +1,11 @@
 package com.aigenes.genetic;
 
 public class CompositeEvolutionEngine implements IEvolutionEngine {
-  
+
   private final IEvolutionEngine[] engines;
   private Generation generation;
   private IEvolutionEngine bestEngine;
-  
+
   /**
    * Constructs this composite Evolution Engine.
    * 
@@ -20,8 +20,7 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
    */
   public CompositeEvolutionEngine(Generation generation, ISelector selector,
     ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
-    IFitnessFunction fitnessFunction, boolean elitismEnabled,
-    int numOfAgents)
+    IFitnessFunction fitnessFunction, boolean elitismEnabled, int numOfAgents)
   {
     this.generation = generation;
     this.engines = new IEvolutionEngine[numOfAgents];
@@ -30,7 +29,7 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
         mutationStrategy, fitnessFunction, elitismEnabled);
     }
   }
-  
+
   /**
    * Constructs this composite Evolution Engine.
    * 
@@ -59,46 +58,31 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
 
   @Override
   public int findSolution(double fitnessTarget,
-    TerminationCriteria terminationCriteria)
-    throws IncompatibleChromosomeException, TerminationException
-  {
-    // TODO Avoid object creation here. Create a new member...
-    TerminationException[] exceptions = new TerminationException[engines.length];
+    TerminationCriteria terminationCriteria) {
     double bestOfBestScores = -Double.MIN_VALUE;
-    int bestEngineIndex = 0;
-    
+
+    boolean completed = true;
     for (int i = 0; i < engines.length; i++) {
-      try {
-        engines[i].findSolution(fitnessTarget, terminationCriteria);
-      } catch (TerminationException e) {
-        exceptions[i] = e;
-      }
+      completed &= engines[i].findSolution(fitnessTarget, terminationCriteria) > -1;
       final double bestScore = engines[i].getBestFitnessScore();
       if (bestScore > bestOfBestScores) {
         bestOfBestScores = bestScore;
         bestEngine = engines[i];
-        bestEngineIndex = i;
       }
     }
     // If a engine with the best results has not been identified, return
     // "null" index
-    if (bestEngine == null)
-      return -1;
-    // If the engine with the best results threw a TerminationException, we
-    // need to re-throw it
-    if (exceptions[bestEngineIndex] != null)
-      throw exceptions[bestEngineIndex];
-    return bestEngine.getBestIndex();
+    return bestEngine != null && completed ? bestEngine.getBestIndex() : -1;
   }
 
   @Override
-  public void step() throws IncompatibleChromosomeException {
+  public void step() {
     for (int i = 0; i < engines.length; i++)
       engines[i].step();
   }
 
   @Override
-  public int step(double fitnessTarget) throws IncompatibleChromosomeException {
+  public int step(double fitnessTarget) {
     for (int i = 0; i < engines.length; i++)
       engines[i].step(fitnessTarget);
     return 0;
@@ -114,13 +98,13 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
     // TODO Legalise -1 return value in the interface
     return bestEngine != null ? bestEngine.getBestIndex() : -1;
   }
-  
+
   @Override
   public double getBestFitnessScore() {
     // TODO Legalise Double.NaN return value in the interface definition
     return bestEngine != null ? bestEngine.getBestFitnessScore() : Double.NaN;
-  }    
-  
+  }
+
   private static IEvolutionEngine createEngine(Generation generation,
     ISelector selector, ICrossoverStrategy crossoverStrategy,
     IMutationStrategy mutationStrategy, IFitnessFunction fitnessFunction,

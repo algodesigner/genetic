@@ -11,7 +11,6 @@ import com.aigenes.genetic.IEvolutionEngine;
 import com.aigenes.genetic.IFitnessFunction;
 import com.aigenes.genetic.IncompatibleChromosomeException;
 import com.aigenes.genetic.TerminationCriteria;
-import com.aigenes.genetic.TerminationException;
 
 public class MaxAreaTest {
  
@@ -40,12 +39,9 @@ public class MaxAreaTest {
   private static void solveMaxArea(IEvolutionEngine engine)
     throws IncompatibleChromosomeException
   {
-    try {
-      engine.findSolution(Double.MAX_VALUE, TERMINATION_CRITERIA);
-    } catch (TerminationException e) {
-      Generation generation = engine.getGeneration();
-      System.out.println(generation.getChromosome(engine.getBestIndex()));
-    }
+    engine.findSolution(Double.MAX_VALUE, TERMINATION_CRITERIA);
+    Generation generation = engine.getGeneration();
+    System.out.println(generation.getChromosome(engine.getBestIndex()));
   }
   
   private static Generation createInitialGeneration() {

@@ -1,17 +1,12 @@
 package com.aigenes.genetic;
 
-import static org.junit.Assert.fail;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
-import com.aigenes.genetic.Generation;
-import com.aigenes.genetic.IEvolutionEngine;
-import com.aigenes.genetic.IncompatibleChromosomeException;
-import com.aigenes.genetic.TerminationCriteria;
-import com.aigenes.genetic.TerminationEvaluator;
-import com.aigenes.genetic.TerminationException;
+import org.junit.Test;
 
 /**
  * TerminationEvaluator test cases
+ * 
  * @author Vlad Shurupov
  * @version 1.01
  */
@@ -27,7 +22,7 @@ public class TerminationEvaluatorTest {
   }
 
   @Test
-  public void testOperation() throws TerminationException, InterruptedException {
+  public void testOperation() throws InterruptedException {
     TerminationEvaluator terminationEvaluator =
       new TerminationEvaluator(new TestEvolutionEngine());
 
@@ -43,18 +38,10 @@ public class TerminationEvaluatorTest {
     criteria = new TerminationCriteria(100, -1);
     terminationEvaluator.evaluate(criteria, 0);
     Thread.sleep(100);
-    try {
-      terminationEvaluator.evaluate(criteria, 0);
-      fail("Expected TerminationException");
-    } catch (TerminationException ex) {
-    }
+    assertFalse(terminationEvaluator.evaluate(criteria, 0));
 
     criteria = new TerminationCriteria(-1, 3);
-    try {
-      terminationEvaluator.evaluate(criteria, 0);
-      fail("Expected TerminationException");
-    } catch (TerminationException ex) {
-    }
+    assertFalse(terminationEvaluator.evaluate(criteria, 0));
   }
 
   private class TestEvolutionEngine implements IEvolutionEngine {
@@ -65,17 +52,14 @@ public class TerminationEvaluatorTest {
 
     public int findSolution(double fitnessTarget,
       TerminationCriteria terminationCriteria)
-      throws IncompatibleChromosomeException, TerminationException
     {
       return -1;
     }
 
-    public void step() throws IncompatibleChromosomeException {
+    public void step() {
     }
 
-    public int step(double fitnessTarget)
-      throws IncompatibleChromosomeException
-    {
+    public int step(double fitnessTarget) {
       return -1;
     }
 

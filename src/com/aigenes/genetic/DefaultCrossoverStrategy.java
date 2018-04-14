@@ -46,7 +46,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy {
    * @return the resulting offspring
    */
   public ChromosomePair crossover(Chromosome chromosome1,
-    Chromosome chromosome2) throws IncompatibleChromosomeException
+    Chromosome chromosome2)
   {
     if (random.nextDouble() < crossoverRate) {
 

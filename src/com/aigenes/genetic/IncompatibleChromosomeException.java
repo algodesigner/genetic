@@ -5,9 +5,9 @@ package com.aigenes.genetic;
  * with another chromosome for the purposes of crossover or related operations.
  * 
  * @author Vlad Shurupov
- * @version 1.0
+ * @version 1.01
  */
-public class IncompatibleChromosomeException extends Exception {
+public class IncompatibleChromosomeException extends RuntimeException {
 
   private static final long serialVersionUID = 0;
 

@@ -20,8 +20,7 @@ public class TerminationEvaluator {
     this.evolutionEngine = evolutionEngine; 
   }
   
-  public void evaluate(TerminationCriteria criteria, int bestIndex)
-    throws TerminationException
+  public boolean evaluate(TerminationCriteria criteria, int bestIndex)
   {
     // If the timer is not initialised, set it
     if (startTime == -1)
@@ -33,7 +32,8 @@ public class TerminationEvaluator {
         criteria.getMaxTime() <= System.currentTimeMillis() - startTime)
       {
         reset();
-        throw new TerminationException("Time over", bestIndex);
+        // Time is over
+        return false;
       }
     }
     // In any event, check the max generations criteria as long as it is
@@ -42,8 +42,10 @@ public class TerminationEvaluator {
       evolutionEngine.getGenerationCount() >= criteria.getMaxGenerations())
     {
       reset();
-      throw new TerminationException("Max generations reached", bestIndex);
+      // Max generations is reached
+      return false;
     }
+    return true;
   }
 
   /**
