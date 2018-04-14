@@ -49,10 +49,7 @@ public class EvolutionEngineTest {
     // Seed the pseudorandom number generator to achieve predictable results
     Random random = new Random(SEED);
     EvolutionEngine engine = new EvolutionEngine(createInitialGeneration(),
-      new DefaultSelector(random),
-      new DefaultCrossoverStrategy(CROSSOVER_RATE, random),
-      new DefaultMutationStrategy(MUTATION_RATE, random), fitnessFunction,
-      elitism);
+      CROSSOVER_RATE, MUTATION_RATE, fitnessFunction, elitism, random);    
 
     System.out.println(engine.getGeneration());
 
@@ -88,10 +85,7 @@ public class EvolutionEngineTest {
     // Seed the pseudorandom number generator to achieve predictable results
     Random random = new Random(SEED);
     EvolutionEngine engine = new EvolutionEngine(createInitialGeneration(),
-      new DefaultSelector(random),
-      new DefaultCrossoverStrategy(CROSSOVER_RATE, random),
-      new DefaultMutationStrategy(MUTATION_RATE, random), fitnessFunction,
-      true);
+      CROSSOVER_RATE, MUTATION_RATE, fitnessFunction, true, random);    
     engine.findSolution(1, null);
     assertEquals((double)1, engine.getBestFitnessScore(), 1e-8);
   }

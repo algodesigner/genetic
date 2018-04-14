@@ -1,6 +1,7 @@
 package com.aigenes.genetic;
 
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Evolution engine class.
@@ -48,6 +49,16 @@ public class EvolutionEngine implements IEvolutionEngine {
       elitismEnabled);
   }
 
+  public EvolutionEngine(Generation generation, double crossoverRate,
+    double mutationRate, IFitnessFunction fitnessFunction,
+    boolean elitismEnabled, Random random)
+  {
+    this(generation, new DefaultSelector(random),
+      new DefaultCrossoverStrategy(crossoverRate, random),
+      new DefaultMutationStrategy(mutationRate, random), fitnessFunction,
+      elitismEnabled);
+  }
+  
   public EvolutionEngine(Generation generation, ISelector selector,
     ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
     IFitnessFunction fitnessFunction, boolean elitismEnabled)
