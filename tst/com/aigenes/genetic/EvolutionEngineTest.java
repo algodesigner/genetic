@@ -51,7 +51,7 @@ public class EvolutionEngineTest {
     EvolutionEngine engine = new EvolutionEngine(createInitialGeneration(),
       CROSSOVER_RATE, MUTATION_RATE, fitnessFunction, elitism, random);    
 
-    System.out.println(engine.getGeneration());
+    System.out.println(engine);
 
     // This is an optional step to ensure this call does not break anything
     engine.step();
@@ -63,7 +63,7 @@ public class EvolutionEngineTest {
     assertTrue(engine.getGenerationCount() > 0);
     assertTrue(engine.getBestIndex() < engine.getGeneration().size());
 
-    System.out.println(engine.getGeneration());
+    System.out.println(engine);
     System.out.println("Best index: " + engine.getBestIndex());
 
     Chromosome bestChromosome =

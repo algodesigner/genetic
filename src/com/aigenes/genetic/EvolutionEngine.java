@@ -128,18 +128,18 @@ public class EvolutionEngine implements IEvolutionEngine {
 
     // Fitness: Evaluate fitness of each individual chromosome
     double[] fitnessScores = new double[generation.size()];
-    bestIndex = 0;
+    bestIndex = -1;
     bestFitnessScore = 0;
     for (int i = 0; i < fitnessScores.length; i++) {
       fitnessScores[i] = fitnessFunction.apply(generation.getChromosome(i));
       if (Double.isNaN(fitnessScores[i]))
         throw new IllegalStateException(
           "Invalid score (NaN) for chromosome: " + generation.getChromosome(i));
-      if (fitnessScores[i] > fitnessScores[bestIndex]) {
+      if (bestIndex == -1 || fitnessScores[i] > fitnessScores[bestIndex]) {
         bestIndex = i;
         bestFitnessScore = fitnessScores[i];
       }
-      if (fitnessScores[i] >= fitnessTarget) {
+      if (fitnessScores[i] >= fitnessTarget - 1e-8) {
         return i;
       }
     }
@@ -184,5 +184,19 @@ public class EvolutionEngine implements IEvolutionEngine {
   @Override
   public double getBestFitnessScore() {
     return bestFitnessScore;
+  }
+  
+  @Override
+  public String toString() {
+	  StringBuilder sb = new StringBuilder(256);
+	  int size = generation.size();
+	  for (int i = 0; i < size; i++) {
+		  Chromosome c = generation.getChromosome(i);
+		  sb.append(c.toString());
+		  sb.append(' ');
+		  sb.append(fitnessFunction.apply(c));
+		  sb.append('\n');
+	  }
+	  return sb.toString();
   }
 }
