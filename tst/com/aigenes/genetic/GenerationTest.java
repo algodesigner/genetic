@@ -1,5 +1,7 @@
 package com.aigenes.genetic;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 public class GenerationTest {
@@ -20,5 +22,11 @@ public class GenerationTest {
     Chromosome c = new Chromosome("abc");
     new Generation(new Chromosome[] { c, c });
   }
-
+  
+  @Test
+  public void testToString() {
+    Chromosome c = new Chromosome("abc");
+    Generation generation = new Generation(new Chromosome[] { c, c });
+    assertTrue(generation.toString().contains("abc"));
+  }
 }
