@@ -3,9 +3,8 @@ package com.aigenes.genetic;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
-import com.aigenes.genetic.Gene;
+import org.junit.Test;
 
 /**
  * Gene test cases.

@@ -1,9 +1,8 @@
 package com.aigenes.genetic;
 
-import static org.junit.Assert.*;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-import com.aigenes.genetic.TerminationCriteria;
+import org.junit.Test;
 
 
 public class TerminationCriteriaTest {

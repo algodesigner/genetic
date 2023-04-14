@@ -7,9 +7,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.aigenes.genetic.Chromosome;
-import com.aigenes.genetic.Gene;
-
 public class ChromosomeTest {
 
   @Test

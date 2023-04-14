@@ -1,10 +1,8 @@
 package com.aigenes.genetic;
 
-import static org.junit.Assert.*;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-import com.aigenes.genetic.Generation;
-import com.aigenes.genetic.GenerationBuilder;
+import org.junit.Test;
 
 
 public class GenerationBuilderTest {

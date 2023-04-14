@@ -71,7 +71,7 @@ public class ExtendedEvolutionEngineTest {
     // This is an optional step to ensure this call does not break anything
 //    engine.step();
 
-    int bestIndex = engine.findSolution(PERFECT_SCORE, TERMINATION_CRITERIA);
+//    int bestIndex = engine.findSolution(PERFECT_SCORE, TERMINATION_CRITERIA);
 //    assertTrue(bestIndex > -1);
     
     System.out

@@ -2,9 +2,6 @@ package com.aigenes.genetic;
 
 import org.junit.Test;
 
-import com.aigenes.genetic.Chromosome;
-import com.aigenes.genetic.Generation;
-
 public class GenerationTest {
 
   @Test(expected = IllegalArgumentException.class)

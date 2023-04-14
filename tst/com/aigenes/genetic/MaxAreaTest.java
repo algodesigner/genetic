@@ -2,16 +2,6 @@ package com.aigenes.genetic;
 
 import org.junit.Test;
 
-import com.aigenes.genetic.Chromosome;
-import com.aigenes.genetic.CompositeEvolutionEngine;
-import com.aigenes.genetic.EvolutionEngine;
-import com.aigenes.genetic.Generation;
-import com.aigenes.genetic.GenerationBuilder;
-import com.aigenes.genetic.IEvolutionEngine;
-import com.aigenes.genetic.IFitnessFunction;
-import com.aigenes.genetic.IncompatibleChromosomeException;
-import com.aigenes.genetic.TerminationCriteria;
-
 public class MaxAreaTest {
  
   private static final double CROSSOVER_RATE = 0.7;
