@@ -3,9 +3,9 @@
    <property name="inc-dir" location="include"/>
    <property name="lib-dir" location="lib"/>
    <property name="src-dir" location="src"/>
-   <property name="jarname" value="aigen-genetic.jar"/>
+   <property name="jarname" value="algodesigner-genetic.jar"/>
    <property name="tst-dir" location="tst" />
-   <property name="runclass" value="com.aigenes.genetic.test.EvolutionTest"/>
+   <property name="runclass" value="com.algodesigner.genetic.test.EvolutionTest"/>
    <target name="init">
       <mkdir dir="${obj-dir}"/>
       <mkdir dir="${lib-dir}"/>
