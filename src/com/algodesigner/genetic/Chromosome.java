@@ -2,12 +2,14 @@ package com.algodesigner.genetic;
 
 /**
  * Chromosome consists of genes and is immutable.
- * <p>It can be crossed over with another chromosome producing a
+ * <p>
+ * It can be crossed over with another chromosome producing a
  * {@link ChromosomePair}. The crossover operation is delegated to
- * {@link ICrossoverStrategy}. The chromosome knows about the crossover
- * rate.
- * <p>The chromosome provides a method to test its compatibility with
- * another chromosome ({@link #isCompatible(Chromosome)}).
+ * {@link ICrossoverStrategy}.
+ * 
+ * <p>
+ * The chromosome provides a method to test its compatibility with another
+ * chromosome ({@link #isCompatible(Chromosome)}).
  * 
  * @author Vlad Shurupov
  * @version 1.02

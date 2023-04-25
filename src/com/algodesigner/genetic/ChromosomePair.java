@@ -2,16 +2,18 @@ package com.algodesigner.genetic;
 
 /**
  * A pair of Chromosomes.
+ * 
  * @author Vlad Shurupov
  * @version 1.01
  */
 public class ChromosomePair {
 
-  private Chromosome first;
-  private Chromosome second;
+  private final Chromosome first;
+  private final Chromosome second;
 
   /**
    * Constructs this chromosome pair.
+   * 
    * @param first the first chromosome (cannot be <code>null</code>).
    * @param second the second chromosome (cannot be <code>null</code>).
    */
@@ -24,6 +26,7 @@ public class ChromosomePair {
 
   /**
    * Returns the first chromosome.
+   * 
    * @return the first chromosome.
    */
   public Chromosome getFirst() {
@@ -32,6 +35,7 @@ public class ChromosomePair {
 
   /**
    * Returns the second chromosome.
+   * 
    * @return the second chromosome.
    */
   public Chromosome getSecond() {

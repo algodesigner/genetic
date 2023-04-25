@@ -13,7 +13,7 @@ public interface IEvolutionEngine {
    * 
    * @return the current generation
    */
-  public Generation getGeneration();
+  Generation getGeneration();
 
   /**
    * Attempts to find a solution through a series of evolutionary steps.
@@ -24,7 +24,7 @@ public interface IEvolutionEngine {
    * @return the index of the first chromosome that achieved the target fitness
    * @throws IncompatibleChromosomeException
    */
-  public int findSolution(double fitnessTarget,
+  int findSolution(double fitnessTarget,
     TerminationCriteria terminationCriteria);
 
   /**
@@ -32,7 +32,7 @@ public interface IEvolutionEngine {
    * 
    * @throws IncompatibleChromosomeException
    */
-  public void step();
+  void step();
 
   /**
    * Makes a single evolutionary step.
@@ -41,21 +41,21 @@ public interface IEvolutionEngine {
    * @return the index of the first chromosome that achieved the target fitness
    * @throws IncompatibleChromosomeException
    */
-  public int step(double fitnessTarget);
+  int step(double fitnessTarget);
 
   /**
    * Returns the generation count.
    * 
    * @return the generation count
    */
-  public long getGenerationCount();
+  long getGenerationCount();
 
   /**
    * Returns the index of the fittest chromosome in the contained generation.
    * 
    * @return the index of the fittest chromosome.
    */
-  public int getBestIndex();
+  int getBestIndex();
 
   /**
    * Returns the best fitness score (i.e. the score of the fittest chromosome)
@@ -63,6 +63,5 @@ public interface IEvolutionEngine {
    * 
    * @return the best fitness score.
    */
-  public double getBestFitnessScore();
-
+  double getBestFitnessScore();
 }

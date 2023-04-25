@@ -11,11 +11,11 @@ public interface ISelector {
 
   /**
    * Selects a pair of chromosomes for reproduction.
+   * 
    * @param generation a generation from which a pair of chromosomes is to be
    *        selectted.
-   * @param fitnessScores a set of fitness scores used by the selection
-   *        process.
+   * @param fitnessScores a set of fitness scores used by the selection process.
    * @return a selected pair of chromosomes (cannot be {@code null}).
    */
-  public ChromosomePair select(Generation generation, double[] fitnessScores);
+  ChromosomePair select(Generation generation, double[] fitnessScores);
 }

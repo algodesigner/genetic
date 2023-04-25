@@ -9,12 +9,11 @@ package com.algodesigner.genetic;
 public interface ICrossoverStrategy {
 
   /**
-   * Performs a crossover on two given chromosomes
+   * Performs a crossover on two given chromosomes.
    * 
-   * @param chromosome1 the first chromosome
-   * @param chromosome2 the second chromosome
+   * @param chromosome1 the first chromosome; cannot be {@code null}
+   * @param chromosome2 the second chromosome; cannot be {@code null}
    * @return the resulting offspring
    */
-  public ChromosomePair crossover(Chromosome chromosome1,
-    Chromosome chromosome2);
+  ChromosomePair crossover(Chromosome chromosome1, Chromosome chromosome2);
 }

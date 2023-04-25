@@ -6,6 +6,7 @@ package com.algodesigner.genetic;
  * @author Vlad Shurupov
  * @version 1.0
  */
+@FunctionalInterface
 public interface IFitnessFunction {
 
   /**
@@ -14,5 +15,5 @@ public interface IFitnessFunction {
    * @param chromosome the Chromosome that needs to be evaluated.
    * @return the fitness value.
    */
-  public double apply(Chromosome chromosome);
+  double apply(Chromosome chromosome);
 }

@@ -2,34 +2,44 @@ package com.algodesigner.genetic;
 
 /**
  * Termination evaluator helper class.
+ * 
  * @author Vlad Shurupov
  * @version 1.0
  */
-public class TerminationEvaluator {
+class TerminationEvaluator {
 
   private IEvolutionEngine evolutionEngine;
   private long startTime = -1;
 
   /**
    * Constructs this termination evaluator.
+   * 
    * @param evolutionEngine an instance of the evolution engine.
    */
   public TerminationEvaluator(IEvolutionEngine evolutionEngine) {
     if (evolutionEngine == null)
       throw new IllegalArgumentException("null");
-    this.evolutionEngine = evolutionEngine; 
+    this.evolutionEngine = evolutionEngine;
   }
-  
-  public boolean evaluate(TerminationCriteria criteria, int bestIndex)
-  {
+
+  /**
+   * Evaluates the provided criteria and returns {@code true} if it has not been
+   * met.
+   * 
+   * @param criteria the termination criteria; cannot be {@code null}.
+   * @param bestIndex
+   * @return {@code true} if and only the termination criteria has not been met,
+   *         otherwise {@code false}.
+   */
+  public boolean evaluate(TerminationCriteria criteria, int bestIndex) {
     // If the timer is not initialised, set it
     if (startTime == -1)
       startTime = System.currentTimeMillis();
     else {
       // We only check the maximum time criteria if the timer was initialised
       // and the time criteria is actually set (i.e. not equal -1)
-      if (criteria.getMaxTime() != -1 &&
-        criteria.getMaxTime() <= System.currentTimeMillis() - startTime)
+      if (criteria.getMaxTime() != -1
+        && criteria.getMaxTime() <= System.currentTimeMillis() - startTime)
       {
         reset();
         // Time is over
@@ -38,8 +48,8 @@ public class TerminationEvaluator {
     }
     // In any event, check the max generations criteria as long as it is
     // set (i.e. not equal -1)
-    if (criteria.getMaxGenerations() != -1 &&
-      evolutionEngine.getGenerationCount() >= criteria.getMaxGenerations())
+    if (criteria.getMaxGenerations() != -1
+      && evolutionEngine.getGenerationCount() >= criteria.getMaxGenerations())
     {
       reset();
       // Max generations is reached

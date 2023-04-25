@@ -9,8 +9,8 @@ package com.algodesigner.genetic;
  */
 public class TerminationCriteria {
 
-  private long maxTime;
-  private long maxGenerations;
+  private final long maxTime;
+  private final long maxGenerations;
 
   /**
    * Constructs a TerminationCriteria object.
