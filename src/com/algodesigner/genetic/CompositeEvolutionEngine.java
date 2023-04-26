@@ -58,12 +58,14 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
 
   @Override
   public int findSolution(double fitnessTarget,
-    TerminationCriteria terminationCriteria) {
+    TerminationCriteria terminationCriteria)
+  {
     double bestOfBestScores = -Double.MIN_VALUE;
 
     boolean completed = true;
     for (int i = 0; i < engines.length; i++) {
-      completed &= engines[i].findSolution(fitnessTarget, terminationCriteria) > -1;
+      completed &=
+        engines[i].findSolution(fitnessTarget, terminationCriteria) > -1;
       final double bestScore = engines[i].getBestFitnessScore();
       if (bestScore > bestOfBestScores) {
         bestOfBestScores = bestScore;

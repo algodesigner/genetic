@@ -2,6 +2,7 @@ package com.algodesigner.genetic;
 
 /**
  * Generation class is a collection of species represented by Chromosomes.
+ * 
  * @author Vlad Shurupov
  * @version 1.0
  */
@@ -14,14 +15,15 @@ public class Generation {
     if (chromosomes == null)
       throw new IllegalArgumentException("chromosomes cannot be null");
     if (chromosomes.length % 2 != 0)
-      throw new IllegalArgumentException("The size of the generation must" +
-        "be even");
+      throw new IllegalArgumentException(
+        "The size of the generation must" + "be even");
 
     this.chromosomes = chromosomes;
   }
 
   /**
    * Retrieves a Chromosome by its index.
+   * 
    * @param index the index of the Chromosome.
    * @return Chromosome with the specified index.
    */
@@ -31,6 +33,7 @@ public class Generation {
 
   /**
    * Returns the number of Chromosomes in this generation
+   * 
    * @return the number of Chromosomes
    */
   public int size() {

@@ -2,6 +2,7 @@ package com.algodesigner.genetic;
 
 /**
  * Simple gene implementation
+ * 
  * @author Vlad Shurupov
  * @version 1.01
  */
@@ -11,6 +12,7 @@ public class Gene {
 
   /**
    * Constructs a Gene object.
+   * 
    * @param value the gene value
    */
   public Gene(Object value) {
@@ -21,6 +23,7 @@ public class Gene {
 
   /**
    * Returns the value of this gene.
+   * 
    * @return the value of this gene
    */
   public Object getValue() {

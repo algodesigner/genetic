@@ -25,10 +25,10 @@ public class Chromosome {
   /**
    * Constructs a Chromosome object based on an array of Genea and a custom
    * crossover strategy
+   * 
    * @param genes the array of genes
    */
-  public Chromosome(Gene[] genes)
-  {
+  public Chromosome(Gene[] genes) {
     if (genes == null)
       throw new IllegalArgumentException("null");
     this.genes = genes;
@@ -36,6 +36,7 @@ public class Chromosome {
 
   /**
    * Returns the length of the chromosome.
+   * 
    * @return the length of the chromosome
    */
   public int length() {
@@ -44,6 +45,7 @@ public class Chromosome {
 
   /**
    * Returns the gene at a specific index.
+   * 
    * @param index the index of the gene
    * @return the gene
    */
@@ -53,6 +55,7 @@ public class Chromosome {
 
   /**
    * Returns the genes contained in this chromosome.
+   * 
    * @return an array of genes
    */
   public Gene[] getGenes() {
@@ -63,11 +66,12 @@ public class Chromosome {
 
   /**
    * Tests if this chromosome is compatible with a given chromosome.
+   * 
    * @param chromosome the chromosome to test compatibility against
    * @return true, if compatible
    */
   public boolean isCompatible(Chromosome chromosome) {
-    return chromosome != null && length() == chromosome.length();      
+    return chromosome != null && length() == chromosome.length();
   }
 
   /**
@@ -78,11 +82,12 @@ public class Chromosome {
     StringBuilder builder = new StringBuilder(32);
     for (int i = 0; i < genes.length; i++)
       builder.append(genes[i].toString());
-    return builder.toString();    
+    return builder.toString();
   }
-  
+
   /**
    * Converts a string into a gene sequence.
+   * 
    * @param geneString a string with each character representing a gene.
    * @return a gene sequence.
    */

@@ -4,14 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
 public class ChromosomePairTest {
 
   @Test
   public void testConstruction() {
     new ChromosomePair(new Chromosome("ABC"), new Chromosome("DEF"));
   }
-  
+
   @Test(expected = IllegalArgumentException.class)
   public void testNullFirstArg() {
     new ChromosomePair(null, new Chromosome("DEF"));
@@ -21,7 +20,7 @@ public class ChromosomePairTest {
   public void testNullSecondArg() {
     new ChromosomePair(new Chromosome("ABC"), null);
   }
-  
+
   @Test
   public void testBehaviour() {
     Chromosome c = new Chromosome("ABC");

@@ -58,7 +58,7 @@ public class EvolutionEngine implements IEvolutionEngine {
       new DefaultMutationStrategy(mutationRate, random), fitnessFunction,
       elitismEnabled);
   }
-  
+
   public EvolutionEngine(Generation generation, ISelector selector,
     ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
     IFitnessFunction fitnessFunction, boolean elitismEnabled)
@@ -185,18 +185,18 @@ public class EvolutionEngine implements IEvolutionEngine {
   public double getBestFitnessScore() {
     return bestFitnessScore;
   }
-  
+
   @Override
   public String toString() {
-	  StringBuilder sb = new StringBuilder(256);
-	  int size = generation.size();
-	  for (int i = 0; i < size; i++) {
-		  Chromosome c = generation.getChromosome(i);
-		  sb.append(c.toString());
-		  sb.append(' ');
-		  sb.append(fitnessFunction.apply(c));
-		  sb.append('\n');
-	  }
-	  return sb.toString();
+    StringBuilder sb = new StringBuilder(256);
+    int size = generation.size();
+    for (int i = 0; i < size; i++) {
+      Chromosome c = generation.getChromosome(i);
+      sb.append(c.toString());
+      sb.append(' ');
+      sb.append(fitnessFunction.apply(c));
+      sb.append('\n');
+    }
+    return sb.toString();
   }
 }

@@ -4,9 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
 public class GenerationBuilderTest {
-  
+
   @Test
   public void testBehaviour() {
     GenerationBuilder builder = new GenerationBuilder();
@@ -15,7 +14,7 @@ public class GenerationBuilderTest {
     Generation generation = builder.build();
     assertEquals(2, generation.size());
   }
-  
+
   @Test
   public void testReset() {
     GenerationBuilder builder = new GenerationBuilder();

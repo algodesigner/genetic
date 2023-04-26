@@ -4,19 +4,18 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
 public class TerminationCriteriaTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidMaxTime() {
     new TerminationCriteria(-2, 0);
   }
-  
+
   @Test(expected = IllegalArgumentException.class)
   public void testInvalidMaxGenerations() {
     new TerminationCriteria(0, -3);
   }
-  
+
   @Test
   public void testBehaviour() {
     TerminationCriteria criteria = new TerminationCriteria(6000, 20000);

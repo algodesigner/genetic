@@ -10,19 +10,19 @@ public class GenerationTest {
   public void testNullChromosomes() {
     new Generation(null);
   }
-  
+
   @Test(expected = IllegalArgumentException.class)
   public void testUnevenGenerationSize() {
     Chromosome c = new Chromosome("abc");
     new Generation(new Chromosome[] { c });
   }
-  
+
   @Test
   public void testConstruction() {
     Chromosome c = new Chromosome("abc");
     new Generation(new Chromosome[] { c, c });
   }
-  
+
   @Test
   public void testToString() {
     Chromosome c = new Chromosome("abc");
