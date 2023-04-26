@@ -1,4 +1,4 @@
-<project default="all" name="Genetic">
+<project default="all" name="genetic">
    <property name="obj-dir" location="obj"/>
    <property name="inc-dir" location="include"/>
    <property name="lib-dir" location="lib"/>
