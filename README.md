@@ -6,7 +6,7 @@ The best way to learn it at the moment is to browse through its unit tests.
 
 # EvolutionEngineTest: Promoting "dominant" genes
 
-`EvolutionEngineTest.testEvolution()` - Initialises and test the Evolution Engine.
+`EvolutionEngineTest.testEvolution()` - Initialises and runs the Evolution Engine.
 
 In this simple example, the fitness function promotes the "dominant" genes `0` and `1` and ingnores the "useless" `.` gene.
 
