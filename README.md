@@ -4,7 +4,7 @@ This is a simple Genetic Programming library for Java. It is easy to follow and 
 
 The best way to learn it at the moment is to browse through its unit tests.
 
-# EvolutionEngineTest: Promoting "dominant" genes
+## EvolutionEngineTest: Promoting "dominant" genes
 
 `EvolutionEngineTest.testEvolution()` - Initialises and runs the Evolution Engine.
 
