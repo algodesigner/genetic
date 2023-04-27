@@ -221,6 +221,7 @@ public class EvolutionEngine implements IEvolutionEngine {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(256);
+    sb.append(getClass().getSimpleName() + "\n");
     int size = generation.size();
     for (int i = 0; i < size; i++) {
       Chromosome c = generation.getChromosome(i);
@@ -229,6 +230,12 @@ public class EvolutionEngine implements IEvolutionEngine {
       sb.append(fitnessFunction.apply(c));
       sb.append('\n');
     }
+    sb.append("Generation #: " + getGenerationCount());
+    sb.append('\n');
+    sb.append("Best index: " + getBestIndex());
+    sb.append('\n');
+    sb.append("Best Chromosome:\n" + getBestChromosome() + '\n');
+    sb.append("Best fitness: " + fitnessFunction.apply(getBestChromosome()));
     return sb.toString();
   }
 }

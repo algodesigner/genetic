@@ -90,18 +90,13 @@ public class EvolutionEngineTest {
 
     System.out.println(engine.findSolution(1, TERMINATION_CRITERIA));
     System.out
-      .println("Problem Solved! Generation: " + engine.getGenerationCount());
+      .println("\nProblem Solved! Generation: " + engine.getGenerationCount());
 
     assertTrue(engine.getGenerationCount() > 0);
     assertTrue(engine.getBestIndex() < engine.getGeneration().size());
 
     System.out.println(engine);
-    System.out.println("Best index: " + engine.getBestIndex());
-
-    Chromosome bestChromosome = engine.getBestChromosome();
-    System.out.println(bestChromosome);
     assertEquals((double)1, engine.getBestFitnessScore(), 1e-8);
-
   }
 
   @Test(expected = IllegalStateException.class)
