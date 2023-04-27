@@ -98,8 +98,7 @@ public class EvolutionEngineTest {
     System.out.println(engine);
     System.out.println("Best index: " + engine.getBestIndex());
 
-    Chromosome bestChromosome =
-      engine.getGeneration().getChromosome(engine.getBestIndex());
+    Chromosome bestChromosome = engine.getBestChromosome();
     System.out.println(bestChromosome);
     assertEquals((double)1, engine.getBestFitnessScore(), 1e-8);
 

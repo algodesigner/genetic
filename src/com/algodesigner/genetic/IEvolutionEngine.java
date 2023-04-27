@@ -36,7 +36,7 @@ package com.algodesigner.genetic;
  * IEvolutionEngine Interface
  * 
  * @author Vlad Shurupov
- * @version 1.0
+ * @version 1.01
  */
 public interface IEvolutionEngine {
 
@@ -96,4 +96,13 @@ public interface IEvolutionEngine {
    * @return the best fitness score.
    */
   double getBestFitnessScore();
+
+  /**
+   * Returns the chromosome with the best fitness score.
+   * 
+   * @return the chromosome with the best fitness score.
+   */
+  default Chromosome getBestChromosome() {
+    return getGeneration().getChromosome(getBestIndex());
+  }
 }
