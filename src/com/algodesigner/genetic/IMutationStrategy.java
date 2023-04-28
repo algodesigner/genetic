@@ -38,6 +38,7 @@ package com.algodesigner.genetic;
  * @author Vlad Shurupov
  * @version 1.0
  */
+@FunctionalInterface
 public interface IMutationStrategy {
 
   /**
