@@ -48,7 +48,7 @@ public class Generation {
       throw new IllegalArgumentException("chromosomes cannot be null");
     if (chromosomes.length % 2 != 0)
       throw new IllegalArgumentException(
-        "The size of the generation must" + "be even");
+        "The size of the generation must be even");
 
     this.chromosomes = chromosomes;
   }
