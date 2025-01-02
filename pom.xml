@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.algodesigner</groupId>
+    <artifactId>algodesigner-genetic</artifactId>
+    <version>0.0.2</version>
+    <packaging>jar</packaging>
+
+    <name>algodesigner-genetic: A Lightweight Genetic Programming Library for Java</name>
+    <description>
+		algodesigner-genetic is a straightforward and easy-to-use Genetic
+		Programming (GP) library designed for Java developers. With a focus on
+		simplicity and clarity, it provides a minimalistic framework for
+		implementing GP algorithms without any external dependencies.
+
+		This library is ideal for educational purposes, quick prototyping, or as
+		a foundation for more advanced genetic algorithm applications. Its
+		intuitive design makes it accessible for both beginners and experienced
+		developers.
+
+		For a hands-on introduction, the best starting point is exploring the
+		comprehensive set of unit tests, which demonstrate the library’s
+		capabilities and usage patterns.
+    </description>
+    <url>https://github.com/algodesigner/genetic</url>
+
+    <licenses>
+        <license>
+            <name>BSD 3-Clause License</name>
+            <url>https://opensource.org/license/bsd-3-clause</url>
+            <distribution>genetic</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>algodesigner</id>
+            <name>Vlad Shurupov</name>
+            <email>vlad.shurupov@gmail.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <url>https://github.com/algodesigner/genetic</url>
+        <connection>scm:git:git://github.com/algodesigner/genetic.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:algodesigner/genetic.git</developerConnection>
+    </scm>
+</project>

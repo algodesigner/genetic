@@ -3,7 +3,9 @@
    <property name="inc-dir" location="include"/>
    <property name="lib-dir" location="lib"/>
    <property name="src-dir" location="src"/>
-   <property name="jarname" value="algodesigner-genetic.jar"/>
+   <property name="project" value="algodesigner-genetic"/>
+   <property name="version" value="0.0.2"/>
+   <property name="jarname" value="${project}-${version}.jar"/>
    <property name="tst-dir" location="tst" />
    <property name="runclass" value="com.algodesigner.genetic.test.EvolutionTest"/>
    <target name="init">
@@ -67,6 +69,40 @@
          </classpath>
       </java>
    </target>
-   <target name="all" depends="jar"/>
+   <target name="javadoc" depends="jar">
+      <javadoc sourcepath="${src-dir}" destdir="${obj-dir}/javadoc">
+         <classpath>
+            <pathelement path="${inc-dir}"/>
+            <fileset dir="${inc-dir}">
+               <include name="**/*.jar"/>
+            </fileset>
+         </classpath>
+      </javadoc>
+   </target>
+   <target name="javadoc-jar" depends="javadoc">
+      <jar destfile="${lib-dir}/${project}-${version}-javadoc.jar" basedir="${obj-dir}/javadoc">
+         <fileset dir="${obj-dir}/javadoc">
+            <include name="**/*"/>
+         </fileset>
+      </jar>
+   </target>
+   <target name="sources-jar" depends="javadoc-jar">
+      <jar destfile="${lib-dir}/${project}-${version}-sources.jar" basedir="${src-dir}">
+         <fileset dir="${src-dir}">
+            <include name="**/*.java"/>
+         </fileset>
+      </jar>
+   </target>
+    <target name="copy-pom-to-lib" depends="sources-jar">
+        <mkdir dir="lib"/>
+        <copy file="pom.xml" 
+              tofile="${lib-dir}/${project}-${version}.pom"/>
+        <!-- Replace the version in the copied pom.xml -->
+        <replaceregexp file="${lib-dir}/${project}-${version}.pom"
+                       match="(&lt;version&gt;)[^&lt;]*(&lt;/version&gt;)"
+                       replace="\1${version}\2"
+                       byline="true"/>	
+    </target>	
+   <target name="all" depends="copy-pom-to-lib"/>
    <target name="clean" depends="clean-init"/>
 </project>
