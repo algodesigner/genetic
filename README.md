@@ -1,8 +1,10 @@
-# genetic: A simple Genetic Programming library
+# algodesigner-genetic: A Lightweight Genetic Programming Library for Java
 
-This is a simple Genetic Programming library for Java. It is easy to follow and has no external dependencies.
+**algodesigner-genetic** is a straightforward and easy-to-use Genetic Programming (GP) library designed for Java developers. With a focus on simplicity and clarity, it provides a minimalistic framework for implementing GP algorithms without any external dependencies.
 
-The best way to learn it at the moment is to browse through its unit tests.
+This library is ideal for educational purposes, quick prototyping, or as a foundation for more advanced genetic algorithm applications. Its intuitive design makes it accessible for both beginners and experienced developers.
+
+For a hands-on introduction, the best starting point is exploring the comprehensive set of unit tests, which demonstrate the library’s capabilities and usage patterns.
 
 ## EvolutionEngineTest: Promoting "dominant" genes
 
