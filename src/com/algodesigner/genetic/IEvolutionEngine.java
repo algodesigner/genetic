@@ -51,10 +51,11 @@ public interface IEvolutionEngine {
    * Attempts to find a solution through a series of evolutionary steps.
    * 
    * @param fitnessTarget the fitness target
-   * @param terminationCriteria the termination criteria (<tt>null</tt> if not
+   * @param terminationCriteria the termination criteria ({@code null} if not
    *        applicable)
    * @return the index of the first chromosome that achieved the target fitness
-   * @throws IncompatibleChromosomeException
+   * @throws IncompatibleChromosomeException if incompatible chromosomes are
+   *         encountered
    */
   int findSolution(double fitnessTarget,
     TerminationCriteria terminationCriteria);
@@ -62,7 +63,8 @@ public interface IEvolutionEngine {
   /**
    * Makes a single evolutionary step
    * 
-   * @throws IncompatibleChromosomeException
+   * @throws IncompatibleChromosomeException if incompatible chromosomes are
+   *         encountered
    */
   void step();
 
@@ -71,7 +73,8 @@ public interface IEvolutionEngine {
    * 
    * @param fitnessTarget the fitness target
    * @return the index of the first chromosome that achieved the target fitness
-   * @throws IncompatibleChromosomeException
+   * @throws IncompatibleChromosomeException if incompatible chromosomes are
+   *         encountered
    */
   int step(double fitnessTarget);
 

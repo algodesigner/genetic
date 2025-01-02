@@ -50,7 +50,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy {
    * Constructs this crossover strategy.
    * 
    * @param crossoverRate the crossover rate; cannot be less than zero.
-   * @param random a pseudorandom number generator; cannot be code {@code null}.
    */
   public DefaultCrossoverStrategy(double crossoverRate) {
     this(crossoverRate, new Random());

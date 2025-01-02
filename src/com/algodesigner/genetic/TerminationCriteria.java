@@ -34,7 +34,7 @@ package com.algodesigner.genetic;
 
 /**
  * TerminationCriteria class contains criteria for termination of a genetic
- * search. The class is intended to be used by <tt>EvolutionEngine</tt>.
+ * search. The class is intended to be used by {@link EvolutionEngine}.
  * 
  * @author Vlad Shurupov
  * @version 1.0

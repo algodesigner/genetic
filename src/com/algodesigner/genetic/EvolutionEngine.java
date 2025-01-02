@@ -118,11 +118,11 @@ public class EvolutionEngine implements IEvolutionEngine {
    * Attempts to find a solution through a series of evolutionary steps.
    * 
    * @param fitnessTarget the fitness target
-   * @param terminationCriteria the termination criteria (<tt>null</tt> if not
+   * @param terminationCriteria the termination criteria ({@code null} if not
    *        applicable)
    * @return the index of the first chromosome that achieved the target fitness
-   * @throws IncompatibleChromosomeException
-   * @throws TerminationException
+   * @throws IncompatibleChromosomeException if incompatible chromosomes are
+   *         encountered
    */
   @Override
   public int findSolution(double fitnessTarget,
@@ -141,7 +141,8 @@ public class EvolutionEngine implements IEvolutionEngine {
   /**
    * Makes a single evolutionary step
    * 
-   * @throws IncompatibleChromosomeException
+   * @throws IncompatibleChromosomeException if incompatible chromosomes are
+   *         encountered
    */
   @Override
   public void step() {
@@ -153,7 +154,8 @@ public class EvolutionEngine implements IEvolutionEngine {
    * 
    * @param fitnessTarget the fitness target
    * @return the index of the first chromosome that achieved the target fitness
-   * @throws IncompatibleChromosomeException
+   * @throws IncompatibleChromosomeException if incompatible chromosomes are
+   *         encountered
    */
   @Override
   public int step(double fitnessTarget) {
