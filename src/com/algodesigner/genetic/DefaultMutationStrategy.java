@@ -64,7 +64,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
   public DefaultMutationStrategy(double mutationRate, Random random) {
     if (mutationRate < 0)
       throw new IllegalArgumentException(
-        "crossover rate cannot be less than zero");
+        "mutation rate cannot be less than zero");
     this.mutationRate = mutationRate;
     this.random = Objects.requireNonNull(random);
   }
