@@ -3,7 +3,7 @@
 [![Java](https://img.shields.io/badge/Java-8%2B-blue.svg)](https://www.oracle.com/java/)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-**algodesigner-genetic** is a straightforward and easy-to-use Genetic Programming (GP) library designed for Java developers. With a focus on simplicity and clarity, it provides a minimalistic framework for implementing GP algorithms without any external dependencies.
+**algodesigner-genetic** is a straightforward and easy-to-use Genetic Programming (GP) library designed for Java developers. With a focus on simplicity and clarity, it provides a minimalist framework for implementing GP algorithms without any external dependencies.
 
 This library is ideal for educational purposes, quick prototyping, or as a foundation for more advanced genetic algorithm applications. Its intuitive design makes it accessible for both beginners and experienced developers.
 
@@ -16,7 +16,7 @@ This library is ideal for educational purposes, quick prototyping, or as a found
   - [Basic Example: Dominant Gene Evolution](#basic-example-dominant-gene-evolution)
   - [Practical Example: Max Area Problem](#practical-example-max-area-problem)
   - [Practical Example: Subtraction Problem](#practical-example-subtraction-problem)
-- [Customizing Evolution](#customizing-evolution)
+- [Customising Evolution](#customising-evolution)
 - [API Overview](#api-overview)
   - [Key Classes](#key-classes)
   - [Interfaces](#interfaces)
@@ -29,7 +29,7 @@ This library is ideal for educational purposes, quick prototyping, or as a found
 
 - **Zero dependencies** - Pure Java implementation
 - **Simple API** - Easy to learn and use
-- **Flexible configuration** - Customizable crossover, mutation, and selection strategies
+- **Flexible configuration** - Customisable crossover, mutation, and selection strategies
 - **Extensible design** - Implement your own fitness functions and strategies
 - **Educational focus** - Clear, readable code with comprehensive test examples
 - **Dual evolution engines** - Both simple and composite engine implementations
@@ -111,7 +111,7 @@ System.out.println("Best chromosome: " + engine.getGeneration().getChromosome(en
 This example demonstrates a simple genetic algorithm where the fitness function promotes dominant genes (`0` or `1`) while ignoring "useless" genes (`.`):
 
 ```java
-// Fitness function that favors dominant genes
+// Fitness function that favours dominant genes
 IFitnessFunction fitnessFunction = chromosome -> {
     Gene[] genes = chromosome.getGenes();
     int zeroCount = 0;
@@ -148,10 +148,10 @@ Initial generation (mixed 0s, 1s, and .s) evolves to:
 
 ### Practical Example: Max Area Problem
 
-This example solves an optimization problem to maximize area given perimeter constraints:
+This example solves an optimisation problem to maximise area given perimeter constraints:
 
 ```java
-// Fitness function for maximizing area with perimeter constraint
+// Fitness function for maximising area with perimeter constraint
 private static class FitnessFunction implements IFitnessFunction {
     private final int maxPerimeter;
     
@@ -255,9 +255,9 @@ System.out.println("Chromosome: " + solution);
 ```
 Where A=4, B=9, C=5 gives 594 - 459 = 495
 
-## Customizing Evolution
+## Customising Evolution
 
-The library provides several customization points:
+The library provides several customisation points:
 
 ### Configuring Evolution Parameters
 
@@ -398,14 +398,14 @@ ant test
 
 Key test files to explore:
 - `EvolutionEngineTest.java` - Basic evolution example (dominant gene problem)
-- `MaxAreaTest.java` - Optimization problem example (maximize area with perimeter constraint)  
+- `MaxAreaTest.java` - Optimisation problem example (maximise area with perimeter constraint)  
 - `SubtractionProblemTest.java` - Mathematical problem example (CBA - ABC puzzle)
 - `ExtendedEvolutionEngineTest.java` - Advanced usage examples (currently ignored)
 
 **Test Output Examples:**
 - **EvolutionEngineTest**: Shows chromosomes evolving from mixed patterns (`010101...`, `101010...`) to uniform solutions (`000000...` or `111111...`)
 - **SubtractionProblemTest**: Finds digits A=4, B=9, C=5 that solve 954 - 459 = 495
-- **MaxAreaTest**: Optimizes rectangle dimensions to maximize area within perimeter constraints
+- **MaxAreaTest**: Optimises rectangle dimensions to maximise area within perimeter constraints
 
 ## Contributing
 
