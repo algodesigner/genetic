@@ -71,6 +71,15 @@ public class EvolutionEngine implements IEvolutionEngine {
       new DefaultMutationStrategy(mutationRate), fitnessFunction, false);
   }
 
+  /**
+   * Constructs an EvolutionEngine with default selector and strategies.
+   * 
+   * @param generation initial generation
+   * @param crossoverRate crossover rate (0.0 to 1.0)
+   * @param mutationRate mutation rate (0.0 to 1.0)
+   * @param fitnessFunction fitness function
+   * @param elitismEnabled whether elitism is enabled
+   */
   public EvolutionEngine(Generation generation, double crossoverRate,
     double mutationRate, IFitnessFunction fitnessFunction,
     boolean elitismEnabled)
@@ -81,6 +90,16 @@ public class EvolutionEngine implements IEvolutionEngine {
       elitismEnabled);
   }
 
+  /**
+   * Constructs an EvolutionEngine with default selector and strategies using a custom Random.
+   * 
+   * @param generation initial generation
+   * @param crossoverRate crossover rate (0.0 to 1.0)
+   * @param mutationRate mutation rate (0.0 to 1.0)
+   * @param fitnessFunction fitness function
+   * @param elitismEnabled whether elitism is enabled
+   * @param random random number generator
+   */
   public EvolutionEngine(Generation generation, double crossoverRate,
     double mutationRate, IFitnessFunction fitnessFunction,
     boolean elitismEnabled, Random random)
@@ -91,6 +110,16 @@ public class EvolutionEngine implements IEvolutionEngine {
       elitismEnabled);
   }
 
+  /**
+   * Constructs an EvolutionEngine with custom components.
+   * 
+   * @param generation initial generation
+   * @param selector selection strategy
+   * @param crossoverStrategy crossover strategy
+   * @param mutationStrategy mutation strategy
+   * @param fitnessFunction fitness function
+   * @param elitismEnabled whether elitism is enabled
+   */
   public EvolutionEngine(Generation generation, ISelector selector,
     ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
     IFitnessFunction fitnessFunction, boolean elitismEnabled)

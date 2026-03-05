@@ -50,6 +50,11 @@ public class Chromosome {
 
   private final Gene[] genes;
 
+  /**
+   * Constructs a Chromosome from a string representation of genes.
+   * 
+   * @param geneString string representation of genes
+   */
   public Chromosome(String geneString) {
     this(toGenes(geneString));
   }

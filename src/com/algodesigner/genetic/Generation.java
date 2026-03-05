@@ -42,6 +42,12 @@ public class Generation {
 
   private final Chromosome[] chromosomes;
 
+  /**
+   * Constructs a Generation from an array of chromosomes.
+   * 
+   * @param chromosomes array of chromosomes
+   * @throws IllegalArgumentException if chromosomes is null or has odd length
+   */
   public Generation(Chromosome[] chromosomes) {
 
     if (chromosomes == null)

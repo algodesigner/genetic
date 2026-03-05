@@ -32,6 +32,11 @@
  */
 package com.algodesigner.genetic;
 
+/**
+ * Composite evolution engine that maintains multiple subpopulations for better diversity.
+ * This engine runs multiple evolution engines in parallel and periodically exchanges
+ * individuals between subpopulations.
+ */
 public class CompositeEvolutionEngine implements IEvolutionEngine {
 
   private final IEvolutionEngine[] engines;

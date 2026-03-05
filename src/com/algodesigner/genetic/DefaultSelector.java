@@ -47,6 +47,9 @@ public class DefaultSelector implements ISelector {
 
   private final Random random;
 
+  /**
+   * Constructs a DefaultSelector with a new Random instance.
+   */
   public DefaultSelector() {
     this(new Random());
   }

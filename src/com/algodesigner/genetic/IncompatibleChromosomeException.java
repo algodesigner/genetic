@@ -43,6 +43,11 @@ public class IncompatibleChromosomeException extends RuntimeException {
 
   private static final long serialVersionUID = 0;
 
+  /**
+   * Constructs an IncompatibleChromosomeException with the specified message.
+   * 
+   * @param message the detail message
+   */
   public IncompatibleChromosomeException(String message) {
     super(message);
   }
