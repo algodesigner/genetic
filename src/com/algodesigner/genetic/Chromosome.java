@@ -44,6 +44,7 @@ package com.algodesigner.genetic;
  * 
  * <p>
  * Chromosomes support genetic operations including:
+ * </p>
  * <ul>
  * <li><strong>Crossover</strong>: Combining genetic material with another
  * chromosome to produce offspring, delegated to {@link ICrossoverStrategy}</li>
@@ -52,7 +53,6 @@ package com.algodesigner.genetic;
  * <li><strong>Fitness evaluation</strong>: Being assessed by an
  * {@link IFitnessFunction} to determine solution quality</li>
  * </ul>
- * </p>
  * 
  * <p>
  * In genetic algorithm terminology, a chromosome corresponds to an individual
@@ -63,6 +63,7 @@ package com.algodesigner.genetic;
  * 
  * <p>
  * <strong>Example usage:</strong>
+ * </p>
  * 
  * <pre>{@code
  * // Create a chromosome from a binary string
@@ -75,7 +76,6 @@ package com.algodesigner.genetic;
  * // Access individual genes
  * Gene gene = chromosome.getGene(0);
  * }</pre>
- * </p>
  * 
  * @author Vlad Shurupov
  * @version 1.02
@@ -100,6 +100,7 @@ public class Chromosome {
    * 
    * <p>
    * <strong>Example:</strong>
+   * </p>
    * 
    * <pre>{@code
    * // Binary chromosome
@@ -108,7 +109,6 @@ public class Chromosome {
    * // Character-based chromosome
    * Chromosome charChromosome = new Chromosome("ABCDEF");
    * }</pre>
-   * </p>
    * 
    * @param geneString string representation of genes, where each character
    *        becomes a gene value

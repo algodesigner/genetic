@@ -74,7 +74,7 @@ import java.util.Random;
  * int solutionIndex = engine.findSolution(0.95, null);
  * 
  * // Or run step-by-step
- * for (int i = 0; i < 100; i++) {
+ * for (int i = 0; i &lt; 100; i++) {
  *   engine.step();
  *   System.out.println("Generation " + engine.getGenerationCount()
  *     + ": Best fitness = " + engine.getBestFitnessScore());

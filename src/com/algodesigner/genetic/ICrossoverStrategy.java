@@ -70,7 +70,7 @@ package com.algodesigner.genetic;
  * ICrossoverStrategy uniformCrossover = (parent1, parent2) -> {
  *   Gene[] child1Genes = new Gene[parent1.size()];
  *   Gene[] child2Genes = new Gene[parent2.size()];
- *   for (int i = 0; i < parent1.size(); i++) {
+ *   for (int i = 0; i &lt; parent1.size(); i++) {
  *     if (random.nextBoolean()) {
  *       child1Genes[i] = parent1.getGene(i);
  *       child2Genes[i] = parent2.getGene(i);

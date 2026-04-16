@@ -44,36 +44,41 @@ package com.algodesigner.genetic;
  * <p>
  * <strong>Common mutation techniques:</strong>
  * <ul>
- *   <li><strong>Bit-flip mutation:</strong> Invert bits in binary representations</li>
- *   <li><strong>Gaussian mutation:</strong> Add small random noise to numerical values</li>
- *   <li><strong>Swap mutation:</strong> Exchange two genes in a chromosome</li>
- *   <li><strong>Scramble mutation:</strong> Randomly reorder a segment of genes</li>
- *   <li><strong>Boundary mutation:</strong> Set gene to minimum or maximum value</li>
+ * <li><strong>Bit-flip mutation:</strong> Invert bits in binary
+ * representations</li>
+ * <li><strong>Gaussian mutation:</strong> Add small random noise to numerical
+ * values</li>
+ * <li><strong>Swap mutation:</strong> Exchange two genes in a chromosome</li>
+ * <li><strong>Scramble mutation:</strong> Randomly reorder a segment of
+ * genes</li>
+ * <li><strong>Boundary mutation:</strong> Set gene to minimum or maximum
+ * value</li>
  * </ul>
  * <p>
  * <strong>Example implementations:</strong>
+ * 
  * <pre>
  * // Gaussian mutation for numerical genes
  * IMutationStrategy gaussianMutation = chromosome -> {
- *     Gene[] mutatedGenes = new Gene[chromosome.size()];
- *     for (int i = 0; i < chromosome.size(); i++) {
- *         double value = ((Number) chromosome.getGene(i).getValue()).doubleValue();
- *         double mutatedValue = value + random.nextGaussian() * mutationStrength;
- *         mutatedGenes[i] = new Gene(mutatedValue);
- *     }
- *     return new Chromosome(mutatedGenes);
+ *   Gene[] mutatedGenes = new Gene[chromosome.size()];
+ *   for (int i = 0; i &lt; chromosome.size(); i++) {
+ *     double value = ((Number)chromosome.getGene(i).getValue()).doubleValue();
+ *     double mutatedValue = value + random.nextGaussian() * mutationStrength;
+ *     mutatedGenes[i] = new Gene(mutatedValue);
+ *   }
+ *   return new Chromosome(mutatedGenes);
  * };
  * 
  * // Swap mutation (for permutation problems)
  * IMutationStrategy swapMutation = chromosome -> {
- *     Gene[] genes = chromosome.getGenes();
- *     int i = random.nextInt(genes.length);
- *     int j = random.nextInt(genes.length);
- *     // Swap genes at positions i and j
- *     Gene temp = genes[i];
- *     genes[i] = genes[j];
- *     genes[j] = temp;
- *     return new Chromosome(genes);
+ *   Gene[] genes = chromosome.getGenes();
+ *   int i = random.nextInt(genes.length);
+ *   int j = random.nextInt(genes.length);
+ *   // Swap genes at positions i and j
+ *   Gene temp = genes[i];
+ *   genes[i] = genes[j];
+ *   genes[j] = temp;
+ *   return new Chromosome(genes);
  * };
  * </pre>
  * 
@@ -91,15 +96,16 @@ public interface IMutationStrategy {
    * potentially improved or novel characteristics. Mutation should introduce
    * small, random changes while preserving most of the chromosome's structure.
    * <p>
-   * The mutation rate (probability of mutation) is typically controlled by
-   * the strategy implementation or configuration. Mutations should be
-   * reversible in principle, allowing the algorithm to explore the solution
-   * space effectively.
+   * The mutation rate (probability of mutation) is typically controlled by the
+   * strategy implementation or configuration. Mutations should be reversible in
+   * principle, allowing the algorithm to explore the solution space
+   * effectively.
    * 
    * @param offspring the chromosome to mutate, never {@code null}
    * @return a new chromosome with mutations applied, never {@code null}
    * @throws NullPointerException if {@code offspring} is {@code null}
-   * @throws ClassCastException if chromosome genes cannot be mutated as expected
+   * @throws ClassCastException if chromosome genes cannot be mutated as
+   *         expected
    */
   Chromosome mutate(Chromosome offspring);
 }
