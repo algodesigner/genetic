@@ -33,77 +33,140 @@
 package com.algodesigner.genetic;
 
 /**
- * IEvolutionEngine Interface
+ * Defines the contract for evolution engines that implement genetic
+ * optimisation algorithms. This interface provides a standard API for evolving
+ * populations of chromosomes towards optimal solutions.
+ * <p>
+ * Implementations of this interface manage the complete evolutionary process,
+ * including fitness evaluation, selection, crossover, mutation, and generation
+ * replacement. The interface supports both automatic solution finding and
+ * manual step-by-step evolution control.
+ * <p>
+ * <strong>Key responsibilities:</strong>
+ * <ul>
+ * <li>Maintain the current generation of chromosomes</li>
+ * <li>Apply genetic operators to evolve the population</li>
+ * <li>Track evolution progress and best solutions</li>
+ * <li>Support termination criteria for automated evolution</li>
+ * </ul>
+ * <p>
+ * This interface enables polymorphism and custom implementations while
+ * maintaining compatibility with the standard {@link EvolutionEngine}.
  * 
  * @author Vlad Shurupov
  * @version 1.01
+ * @see EvolutionEngine
+ * @see CompositeEvolutionEngine
+ * @see Generation
+ * @see Chromosome
  */
 public interface IEvolutionEngine {
 
   /**
-   * Returns the current generation
+   * Returns the current generation being evolved by this engine. The generation
+   * represents the population at the current evolutionary stage.
    * 
-   * @return the current generation
+   * @return the current generation, never {@code null}
+   * @see #step()
+   * @see #getGenerationCount()
    */
   Generation getGeneration();
 
   /**
-   * Attempts to find a solution through a series of evolutionary steps.
+   * Evolves the population until a solution meeting the fitness target is found
+   * or termination criteria are met. This method automates the evolutionary
+   * process.
    * 
-   * @param fitnessTarget the fitness target
-   * @param terminationCriteria the termination criteria ({@code null} if not
-   *        applicable)
-   * @return the index of the first chromosome that achieved the target fitness
-   * @throws IncompatibleChromosomeException if incompatible chromosomes are
-   *         encountered
+   * @param fitnessTarget the minimum fitness value required for a solution
+   * @param terminationCriteria criteria for stopping evolution if no solution
+   *        is found, or {@code null} to continue indefinitely
+   * @return the index of the first chromosome that achieved
+   *         {@code fitnessTarget}, or {@code -1} if termination criteria were
+   *         met without finding a solution
+   * @throws IncompatibleChromosomeException if chromosomes cannot be crossed
+   *         over
+   * @throws IllegalStateException if invalid fitness values are produced
+   * @see #step(double)
+   * @see TerminationCriteria
    */
   int findSolution(double fitnessTarget,
     TerminationCriteria terminationCriteria);
 
   /**
-   * Makes a single evolutionary step
+   * Performs one complete evolutionary cycle, advancing the population by one
+   * generation. This includes evaluation, selection, crossover, mutation, and
+   * replacement operations.
    * 
-   * @throws IncompatibleChromosomeException if incompatible chromosomes are
-   *         encountered
+   * @throws IncompatibleChromosomeException if chromosomes cannot be crossed
+   *         over
+   * @throws IllegalStateException if invalid fitness values are produced
+   * @see #step(double)
+   * @see #findSolution(double, TerminationCriteria)
    */
   void step();
 
   /**
-   * Makes a single evolutionary step.
+   * Performs one evolutionary cycle and checks if any chromosome achieves the
+   * specified fitness target. Returns immediately if a solution is found.
    * 
-   * @param fitnessTarget the fitness target
-   * @return the index of the first chromosome that achieved the target fitness
-   * @throws IncompatibleChromosomeException if incompatible chromosomes are
-   *         encountered
+   * @param fitnessTarget the fitness value to check against, or {@code -1} to
+   *        skip checking (equivalent to {@link #step()})
+   * @return the index of the first chromosome that achieved
+   *         {@code fitnessTarget}, or {@code -1} if no chromosome reached the
+   *         target
+   * @throws IncompatibleChromosomeException if chromosomes cannot be crossed
+   *         over
+   * @throws IllegalStateException if invalid fitness values are produced
+   * @see #step()
+   * @see #findSolution(double, TerminationCriteria)
    */
   int step(double fitnessTarget);
 
   /**
-   * Returns the generation count.
+   * Returns the number of evolutionary cycles completed since this engine was
+   * created. This represents how many generations have been processed.
    * 
-   * @return the generation count
+   * @return the number of completed generations (≥ 0)
+   * @see #getGeneration()
    */
   long getGenerationCount();
 
   /**
-   * Returns the index of the fittest chromosome in the contained generation.
+   * Returns the index of the chromosome with the highest fitness score in the
+   * current generation. The index refers to the position within the generation
+   * returned by {@link #getGeneration()}.
    * 
-   * @return the index of the fittest chromosome.
+   * @return the index of the fittest chromosome (0-based), or {@code -1} if no
+   *         fitness evaluation has been performed
+   * @see #getBestFitnessScore()
+   * @see #getBestChromosome()
    */
   int getBestIndex();
 
   /**
-   * Returns the best fitness score (i.e. the score of the fittest chromosome)
-   * in the contained generation.
+   * Returns the highest fitness score achieved by any chromosome in the current
+   * generation. This represents the quality of the best solution found so far.
    * 
-   * @return the best fitness score.
+   * @return the best fitness score, or {@code 0.0} if no fitness evaluation has
+   *         been performed
+   * @see #getBestIndex()
+   * @see #getBestChromosome()
    */
   double getBestFitnessScore();
 
   /**
-   * Returns the chromosome with the best fitness score.
+   * Returns the chromosome with the highest fitness score in the current
+   * generation. This is a convenience method that combines
+   * {@link #getBestIndex()} and {@link #getGeneration()}.
+   * <p>
+   * The default implementation retrieves the chromosome from the current
+   * generation using the best index. Implementations may override this for
+   * performance or caching purposes.
    * 
-   * @return the chromosome with the best fitness score.
+   * @return the fittest chromosome in the current generation, or {@code null}
+   *         if no fitness evaluation has been performed
+   * @see #getBestIndex()
+   * @see #getBestFitnessScore()
    */
   default Chromosome getBestChromosome() {
     return getGeneration().getChromosome(getBestIndex());

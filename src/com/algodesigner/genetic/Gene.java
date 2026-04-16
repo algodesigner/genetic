@@ -33,19 +33,62 @@
 package com.algodesigner.genetic;
 
 /**
- * Simple gene implementation
+ * Represents a single gene in a genetic algorithm, which is the fundamental
+ * unit of information in a chromosome. A gene holds a value that contributes to
+ * the overall solution representation and can be any {@link Object} type,
+ * allowing for flexible problem modelling.
+ * <p>
+ * In genetic optimisation, genes are analogous to biological genes that carry
+ * hereditary information. They form the building blocks of chromosomes
+ * (solutions) and are subject to genetic operations such as mutation and
+ * crossover during the evolutionary process.
+ * <p>
+ * <strong>Example usage:</strong>
+ * 
+ * <pre>
+ * // Create genes representing different solution components
+ * Gene objectGene = new Gene("Polygon");
+ * Gene numberGene = new Gene(42);
+ * Gene coordinateGene = new Gene(new Point(10, 20));
+ * 
+ * // Genes can be combined into a chromosome
+ * Chromosome chromosome =
+ *   new Chromosome(objectGene, numberGene, coordinateGene);
+ * </pre>
+ * <p>
+ * This implementation enforces non-null values for genes to maintain data
+ * integrity throughout the evolutionary process. Gene equality is based on
+ * value equality, not reference equality.
  * 
  * @author Vlad Shurupov
  * @version 1.01
+ * @see Chromosome
+ * @see Generation
+ * @see EvolutionEngine
  */
 public class Gene {
 
   private final Object value;
 
   /**
-   * Constructs a Gene object.
+   * Constructs a new {@code Gene} with the specified value. The value
+   * represents the information carried by this gene and can be any non-null
+   * object type.
+   * <p>
+   * Gene values should be chosen to appropriately represent the problem domain.
+   * For example:
+   * <ul>
+   * <li>Integer or Double values for numerical optimisation problems</li>
+   * <li>String values for scheduling or routing problems</li>
+   * <li>Custom objects for complex solution representations</li>
+   * </ul>
+   * <p>
+   * The value is stored as-is and equality comparisons use
+   * {@link Object#equals(Object)}.
    * 
-   * @param value the gene value
+   * @param value the gene value, must not be {@code null}
+   * @throws IllegalArgumentException if {@code value} is {@code null}
+   * @see #getValue()
    */
   public Gene(Object value) {
     if (value == null)
@@ -54,9 +97,15 @@ public class Gene {
   }
 
   /**
-   * Returns the value of this gene.
+   * Returns the value stored in this gene. The returned value is the same
+   * object that was passed to the constructor, allowing direct access to the
+   * gene's information.
+   * <p>
+   * This method provides read-only access to the gene value. To modify a gene's
+   * value, create a new {@code Gene} instance with the desired value.
    * 
-   * @return the value of this gene
+   * @return the value of this gene, never {@code null}
+   * @see #Gene(Object)
    */
   public Object getValue() {
     return value;
@@ -68,7 +117,11 @@ public class Gene {
   }
 
   /**
-   * @see java.lang.Object#equals(java.lang.Object)
+   * Compares this gene to the specified object for equality.
+   * 
+   * @param object the object to compare with
+   * @return {@code true} if the objects are equal, {@code false} otherwise
+   * @see #hashCode()
    */
   @Override
   public boolean equals(Object object) {

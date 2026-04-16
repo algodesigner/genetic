@@ -36,10 +36,63 @@ import java.util.Objects;
 import java.util.Random;
 
 /**
- * Evolution engine class.
+ * The core engine that drives the genetic optimisation process, implementing
+ * the complete evolutionary cycle of selection, crossover, mutation, and
+ * replacement. This class orchestrates the interaction between chromosomes,
+ * generations, and genetic operators to evolve solutions towards optimal
+ * fitness.
+ * <p>
+ * The evolution engine follows the standard genetic algorithm workflow:
+ * <ol>
+ * <li><strong>Initialisation:</strong> Create an initial population of
+ * chromosomes</li>
+ * <li><strong>Evaluation:</strong> Calculate fitness for each chromosome</li>
+ * <li><strong>Selection:</strong> Choose parent chromosomes based on
+ * fitness</li>
+ * <li><strong>Crossover:</strong> Combine parent chromosomes to create
+ * offspring</li>
+ * <li><strong>Mutation:</strong> Randomly modify offspring chromosomes</li>
+ * <li><strong>Replacement:</strong> Form new generation from offspring</li>
+ * <li><strong>Termination:</strong> Check stopping criteria and repeat if
+ * needed</li>
+ * </ol>
+ * <p>
+ * <strong>Example usage:</strong>
+ * 
+ * <pre>
+ * // Create initial generation
+ * Generation initialGeneration = new Generation(initialChromosomes);
+ * 
+ * // Configure evolution engine
+ * EvolutionEngine engine = new EvolutionEngine(initialGeneration,
+ *   0.8,  // Crossover rate
+ *   0.01, // Mutation rate
+ *   new MyFitnessFunction(), true // Enable elitism
+ * );
+ * 
+ * // Run evolution until target fitness is reached
+ * int solutionIndex = engine.findSolution(0.95, null);
+ * 
+ * // Or run step-by-step
+ * for (int i = 0; i < 100; i++) {
+ *   engine.step();
+ *   System.out.println("Generation " + engine.getGenerationCount()
+ *     + ": Best fitness = " + engine.getBestFitnessScore());
+ * }
+ * </pre>
+ * <p>
+ * This implementation supports customisable selection, crossover, and mutation
+ * strategies, allowing fine-grained control over the evolutionary process.
  * 
  * @author Vlad Shurupov
  * @version 1.03
+ * @see Generation
+ * @see Chromosome
+ * @see ISelector
+ * @see ICrossoverStrategy
+ * @see IMutationStrategy
+ * @see IFitnessFunction
+ * @see CompositeEvolutionEngine
  */
 public class EvolutionEngine implements IEvolutionEngine {
 
@@ -56,12 +109,27 @@ public class EvolutionEngine implements IEvolutionEngine {
   private double bestFitnessScore;
 
   /**
-   * Constructs this evolution engine.
+   * Constructs a new evolution engine with default selection, crossover, and
+   * mutation strategies. This is the simplest constructor for basic genetic
+   * algorithm usage.
+   * <p>
+   * The crossover rate controls how frequently parent chromosomes are combined
+   * to create offspring (typically 0.6-0.9). The mutation rate controls how
+   * frequently genes are randomly modified (typically 0.001-0.1).
+   * <p>
+   * Elitism is disabled by default, meaning the best chromosomes from each
+   * generation are not automatically preserved.
    * 
-   * @param generation the initial generation.
-   * @param crossoverRate the crossover rate.
-   * @param mutationRate the mutation rate.
-   * @param fitnessFunction the fitness function.
+   * @param generation the initial generation containing the starting population
+   * @param crossoverRate the probability of crossover occurring (0.0 to 1.0)
+   * @param mutationRate the probability of mutation occurring (0.0 to 1.0)
+   * @param fitnessFunction the function that evaluates chromosome fitness
+   * @throws NullPointerException if any parameter is {@code null}
+   * @see #EvolutionEngine(Generation, double, double, IFitnessFunction,
+   *      boolean)
+   * @see DefaultSelector
+   * @see DefaultCrossoverStrategy
+   * @see DefaultMutationStrategy
    */
   public EvolutionEngine(Generation generation, double crossoverRate,
     double mutationRate, IFitnessFunction fitnessFunction)
@@ -72,13 +140,23 @@ public class EvolutionEngine implements IEvolutionEngine {
   }
 
   /**
-   * Constructs an EvolutionEngine with default selector and strategies.
+   * Constructs a new evolution engine with default strategies and configurable
+   * elitism. Elitism preserves the best chromosomes from each generation
+   * unchanged, preventing loss of good solutions during evolution.
+   * <p>
+   * When elitism is enabled, the two best chromosomes are copied directly to
+   * the next generation without modification. This can accelerate convergence
+   * but may reduce population diversity if overused.
    * 
-   * @param generation initial generation
-   * @param crossoverRate crossover rate (0.0 to 1.0)
-   * @param mutationRate mutation rate (0.0 to 1.0)
-   * @param fitnessFunction fitness function
-   * @param elitismEnabled whether elitism is enabled
+   * @param generation the initial generation containing the starting population
+   * @param crossoverRate the probability of crossover occurring (0.0 to 1.0)
+   * @param mutationRate the probability of mutation occurring (0.0 to 1.0)
+   * @param fitnessFunction the function that evaluates chromosome fitness
+   * @param elitismEnabled {@code true} to preserve best chromosomes,
+   *        {@code false} otherwise
+   * @throws NullPointerException if any parameter is {@code null}
+   * @see #EvolutionEngine(Generation, double, double, IFitnessFunction,
+   *      boolean, Random)
    */
   public EvolutionEngine(Generation generation, double crossoverRate,
     double mutationRate, IFitnessFunction fitnessFunction,
@@ -91,14 +169,28 @@ public class EvolutionEngine implements IEvolutionEngine {
   }
 
   /**
-   * Constructs an EvolutionEngine with default selector and strategies using a custom Random.
+   * Constructs a new evolution engine with default strategies, configurable
+   * elitism, and a custom random number generator. This constructor is useful
+   * for:
+   * <ul>
+   * <li>Reproducible experiments (using seeded Random)</li>
+   * <li>Performance optimisation (using faster Random implementations)</li>
+   * <li>Testing with controlled randomness</li>
+   * </ul>
+   * <p>
+   * The random number generator is used by selection, crossover, and mutation
+   * strategies for all stochastic decisions in the evolutionary process.
    * 
-   * @param generation initial generation
-   * @param crossoverRate crossover rate (0.0 to 1.0)
-   * @param mutationRate mutation rate (0.0 to 1.0)
-   * @param fitnessFunction fitness function
-   * @param elitismEnabled whether elitism is enabled
-   * @param random random number generator
+   * @param generation the initial generation containing the starting population
+   * @param crossoverRate the probability of crossover occurring (0.0 to 1.0)
+   * @param mutationRate the probability of mutation occurring (0.0 to 1.0)
+   * @param fitnessFunction the function that evaluates chromosome fitness
+   * @param elitismEnabled {@code true} to preserve best chromosomes,
+   *        {@code false} otherwise
+   * @param random the random number generator to use for stochastic operations
+   * @throws NullPointerException if any parameter is {@code null}
+   * @see #EvolutionEngine(Generation, ISelector, ICrossoverStrategy,
+   *      IMutationStrategy, IFitnessFunction, boolean)
    */
   public EvolutionEngine(Generation generation, double crossoverRate,
     double mutationRate, IFitnessFunction fitnessFunction,
@@ -111,14 +203,37 @@ public class EvolutionEngine implements IEvolutionEngine {
   }
 
   /**
-   * Constructs an EvolutionEngine with custom components.
+   * Constructs a new evolution engine with fully customisable components. This
+   * constructor provides maximum flexibility for advanced genetic algorithm
+   * configurations.
+   * <p>
+   * Each component can be customised:
+   * <ul>
+   * <li><strong>Selector:</strong> Controls how parents are chosen (e.g.,
+   * tournament, roulette)</li>
+   * <li><strong>Crossover Strategy:</strong> Defines how parent chromosomes are
+   * combined</li>
+   * <li><strong>Mutation Strategy:</strong> Specifies how offspring chromosomes
+   * are modified</li>
+   * <li><strong>Fitness Function:</strong> Evaluates how good each solution
+   * is</li>
+   * </ul>
+   * <p>
+   * This constructor is ideal for implementing specialised genetic algorithms
+   * or experimenting with novel evolutionary approaches.
    * 
-   * @param generation initial generation
-   * @param selector selection strategy
-   * @param crossoverStrategy crossover strategy
-   * @param mutationStrategy mutation strategy
-   * @param fitnessFunction fitness function
-   * @param elitismEnabled whether elitism is enabled
+   * @param generation the initial generation containing the starting population
+   * @param selector the selection strategy for choosing parent chromosomes
+   * @param crossoverStrategy the strategy for combining parent chromosomes
+   * @param mutationStrategy the strategy for modifying offspring chromosomes
+   * @param fitnessFunction the function that evaluates chromosome fitness
+   * @param elitismEnabled {@code true} to preserve best chromosomes,
+   *        {@code false} otherwise
+   * @throws NullPointerException if any parameter is {@code null}
+   * @see ISelector
+   * @see ICrossoverStrategy
+   * @see IMutationStrategy
+   * @see IFitnessFunction
    */
   public EvolutionEngine(Generation generation, ISelector selector,
     ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
@@ -134,9 +249,17 @@ public class EvolutionEngine implements IEvolutionEngine {
   }
 
   /**
-   * Returns the current generation
+   * Returns the current generation being evolved. The generation represents the
+   * population at the current point in the evolutionary process.
+   * <p>
+   * After each call to {@link #step()} or {@link #step(double)}, the generation
+   * is replaced with a new one containing evolved chromosomes. The returned
+   * generation is typically ordered by fitness (best first).
    * 
-   * @return the current generation
+   * @return the current generation, never {@code null}
+   * @see #step()
+   * @see #step(double)
+   * @see #getGenerationCount()
    */
   @Override
   public Generation getGeneration() {
@@ -144,14 +267,32 @@ public class EvolutionEngine implements IEvolutionEngine {
   }
 
   /**
-   * Attempts to find a solution through a series of evolutionary steps.
+   * Evolves the population until a chromosome achieves the target fitness or
+   * termination criteria are met. This method repeatedly calls
+   * {@link #step(double)} until a solution is found or evolution stops.
+   * <p>
+   * The method returns when:
+   * <ul>
+   * <li>A chromosome achieves fitness ≥ {@code fitnessTarget}</li>
+   * <li>Termination criteria are met (e.g., maximum generations reached)</li>
+   * <li>An error occurs during evolution</li>
+   * </ul>
+   * <p>
+   * If termination criteria are provided and met before the target fitness is
+   * achieved, the method returns {@code -1} indicating no solution was found.
    * 
-   * @param fitnessTarget the fitness target
-   * @param terminationCriteria the termination criteria ({@code null} if not
-   *        applicable)
-   * @return the index of the first chromosome that achieved the target fitness
-   * @throws IncompatibleChromosomeException if incompatible chromosomes are
-   *         encountered
+   * @param fitnessTarget the minimum fitness value required for a solution
+   * @param terminationCriteria criteria for stopping evolution if no solution
+   *        is found, or {@code null} to continue indefinitely
+   * @return the index of the first chromosome that achieved the target fitness,
+   *         or {@code -1} if termination criteria were met without finding a
+   *         solution
+   * @throws IncompatibleChromosomeException if chromosomes cannot be crossed
+   *         over
+   * @throws IllegalStateException if a chromosome produces NaN fitness
+   * @see #step(double)
+   * @see TerminationCriteria
+   * @see TerminationEvaluator
    */
   @Override
   public int findSolution(double fitnessTarget,
@@ -168,10 +309,26 @@ public class EvolutionEngine implements IEvolutionEngine {
   }
 
   /**
-   * Makes a single evolutionary step
+   * Performs one complete evolutionary cycle: evaluation, selection, crossover,
+   * mutation, and replacement. This advances the population by one generation.
+   * <p>
+   * The step includes:
+   * <ol>
+   * <li>Evaluate fitness of all chromosomes</li>
+   * <li>Select parent pairs based on fitness</li>
+   * <li>Create offspring through crossover</li>
+   * <li>Apply mutation to offspring</li>
+   * <li>Form new generation (with elitism if enabled)</li>
+   * </ol>
+   * <p>
+   * Use this method for manual control of the evolutionary process or when
+   * implementing custom termination logic.
    * 
-   * @throws IncompatibleChromosomeException if incompatible chromosomes are
-   *         encountered
+   * @throws IncompatibleChromosomeException if chromosomes cannot be crossed
+   *         over
+   * @throws IllegalStateException if a chromosome produces NaN fitness
+   * @see #step(double)
+   * @see #findSolution(double, TerminationCriteria)
    */
   @Override
   public void step() {
@@ -179,12 +336,27 @@ public class EvolutionEngine implements IEvolutionEngine {
   }
 
   /**
-   * Makes a single evolutionary step.
+   * Performs one evolutionary cycle and checks if any chromosome achieves the
+   * specified fitness target. This method combines evolution with immediate
+   * solution checking.
+   * <p>
+   * If a chromosome achieves fitness ≥ {@code fitnessTarget}, the method
+   * returns immediately with the chromosome's index. Otherwise, it returns
+   * {@code -1} and continues with the next generation.
+   * <p>
+   * This method is useful for implementing early termination when a
+   * satisfactory solution is found, avoiding unnecessary computation.
    * 
-   * @param fitnessTarget the fitness target
-   * @return the index of the first chromosome that achieved the target fitness
-   * @throws IncompatibleChromosomeException if incompatible chromosomes are
-   *         encountered
+   * @param fitnessTarget the fitness value to check against, or {@code -1} to
+   *        skip checking (equivalent to {@link #step()})
+   * @return the index of the first chromosome that achieved
+   *         {@code fitnessTarget}, or {@code -1} if no chromosome reached the
+   *         target
+   * @throws IncompatibleChromosomeException if chromosomes cannot be crossed
+   *         over
+   * @throws IllegalStateException if a chromosome produces NaN fitness
+   * @see #step()
+   * @see #findSolution(double, TerminationCriteria)
    */
   @Override
   public int step(double fitnessTarget) {
@@ -234,16 +406,37 @@ public class EvolutionEngine implements IEvolutionEngine {
     return -1;
   }
 
+  /**
+   * {@inheritDoc}
+   * <p>
+   * This implementation returns the count of completed evolutionary cycles
+   * since this engine was constructed. The count is incremented after each
+   * successful call to {@link #step()} or {@link #step(double)}.
+   */
   @Override
   public long getGenerationCount() {
     return generationCount;
   }
 
+  /**
+   * {@inheritDoc}
+   * <p>
+   * This implementation returns the index of the chromosome with the highest
+   * fitness score from the most recent fitness evaluation. The index is updated
+   * during each call to {@link #step()} or {@link #step(double)}.
+   */
   @Override
   public int getBestIndex() {
     return bestIndex;
   }
 
+  /**
+   * {@inheritDoc}
+   * <p>
+   * This implementation returns the fitness score of the best chromosome from
+   * the most recent fitness evaluation. The score is updated during each call
+   * to {@link #step()} or {@link #step(double)}.
+   */
   @Override
   public double getBestFitnessScore() {
     return bestFitnessScore;

@@ -33,19 +33,64 @@
 package com.algodesigner.genetic;
 
 /**
- * Fitness function interface definition.
+ * Functional interface that defines how to evaluate the quality (fitness) of a
+ * chromosome in a genetic algorithm. The fitness function is the objective
+ * function that the algorithm attempts to maximise.
+ * <p>
+ * Fitness functions translate chromosome representations into numerical scores
+ * that indicate solution quality. Higher scores represent better solutions.
+ * The function should be designed to guide the evolutionary process toward
+ * optimal solutions.
+ * <p>
+ * <strong>Design considerations:</strong>
+ * <ul>
+ *   <li><strong>Monotonic:</strong> Better solutions should have higher scores</li>
+ *   <li><strong>Continuous:</strong> Small changes should produce small fitness changes</li>
+ *   <li><strong>Efficient:</strong> Called frequently during evolution</li>
+ *   <li><strong>Deterministic:</strong> Same chromosome should produce same fitness</li>
+ * </ul>
+ * <p>
+ * <strong>Example implementation:</strong>
+ * <pre>
+ * // Fitness function for maximising function f(x) = x²
+ * IFitnessFunction squareFitness = chromosome -> {
+ *     Gene gene = chromosome.getGene(0);
+ *     double x = ((Number) gene.getValue()).doubleValue();
+ *     return x * x;  // Higher x gives higher fitness
+ * };
+ * 
+ * // Fitness function for minimising distance
+ * IFitnessFunction distanceFitness = chromosome -> {
+ *     Point p1 = (Point) chromosome.getGene(0).getValue();
+ *     Point p2 = (Point) chromosome.getGene(1).getValue();
+ *     double distance = p1.distanceTo(p2);
+ *     return 1.0 / (1.0 + distance);  // Smaller distance gives higher fitness
+ * };
+ * </pre>
  * 
  * @author Vlad Shurupov
  * @version 1.0
+ * @see Chromosome
+ * @see EvolutionEngine
+ * @see Generation
  */
 @FunctionalInterface
 public interface IFitnessFunction {
 
   /**
-   * Returns the fitness value of the specified Chromosome.
+   * Evaluates the specified chromosome and returns its fitness score.
+   * The score represents how well the chromosome solves the target problem,
+   * with higher values indicating better solutions.
+   * <p>
+   * This method is called for every chromosome in every generation during
+   * evolution, so implementations should be efficient. The function must
+   * return valid double values (not NaN or infinite) for all valid chromosomes.
    * 
-   * @param chromosome the Chromosome that needs to be evaluated.
-   * @return the fitness value.
+   * @param chromosome the chromosome to evaluate, never {@code null}
+   * @return the fitness score of the chromosome (higher is better)
+   * @throws NullPointerException if {@code chromosome} is {@code null}
+   * @throws ClassCastException if chromosome genes cannot be interpreted
+   *         as expected by the fitness function
    */
   double apply(Chromosome chromosome);
 }

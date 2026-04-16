@@ -33,9 +33,51 @@
 package com.algodesigner.genetic;
 
 /**
- * Composite evolution engine that maintains multiple subpopulations for better diversity.
- * This engine runs multiple evolution engines in parallel and periodically exchanges
- * individuals between subpopulations.
+ * An advanced evolution engine that implements the island model genetic
+ * algorithm, maintaining multiple independent subpopulations (islands) that
+ * evolve in parallel. This approach enhances genetic diversity and can escape
+ * local optima more effectively than single-population approaches.
+ * <p>
+ * The composite engine creates multiple {@link EvolutionEngine} instances, each
+ * operating on the same initial population but evolving independently. This
+ * parallel evolution increases exploration of the solution space while
+ * maintaining multiple evolutionary trajectories.
+ * <p>
+ * <strong>Island model benefits:</strong>
+ * <ul>
+ * <li><strong>Increased diversity:</strong> Independent islands maintain
+ * distinct gene pools</li>
+ * <li><strong>Parallel exploration:</strong> Multiple search directions
+ * explored simultaneously</li>
+ * <li><strong>Escape local optima:</strong> Different islands may converge to
+ * different solutions</li>
+ * <li><strong>Fault tolerance:</strong> Poor performance in one island doesn't
+ * affect others</li>
+ * </ul>
+ * <p>
+ * <strong>Example usage:</strong>
+ * 
+ * <pre>
+ * // Create composite engine with 4 parallel subpopulations
+ * CompositeEvolutionEngine engine =
+ *   new CompositeEvolutionEngine(initialGeneration, 0.8, // Crossover rate
+ *     0.01, // Mutation rate
+ *     new MyFitnessFunction(), true, // Enable elitism
+ *     4 // Number of parallel evolution engines
+ *   );
+ * 
+ * // Run evolution - all subpopulations evolve in parallel
+ * int solutionIndex = engine.findSolution(0.95, null);
+ * </pre>
+ * <p>
+ * This implementation is particularly effective for complex optimisation
+ * problems where maintaining population diversity is challenging.
+ * 
+ * @author Vlad Shurupov
+ * @version 1.0
+ * @see EvolutionEngine
+ * @see IEvolutionEngine
+ * @see Generation
  */
 public class CompositeEvolutionEngine implements IEvolutionEngine {
 
@@ -44,16 +86,27 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
   private IEvolutionEngine bestEngine;
 
   /**
-   * Constructs this composite Evolution Engine.
+   * Constructs a composite evolution engine with fully customisable components
+   * for each subpopulation. This constructor provides maximum control over the
+   * evolutionary process across all islands.
+   * <p>
+   * Each sub-engine (island) is created with identical configuration but
+   * evolves independently due to stochastic variations in selection and genetic
+   * operations.
    * 
-   * @param generation the initial generation.
-   * @param selector the chromosome selection strategy.
-   * @param crossoverStrategy the crossover strategy.
-   * @param mutationStrategy the chromosome mutation strategy.
-   * @param fitnessFunction the fitness function (a.k.a. fitness function)
-   * @param elitismEnabled <code>true</code> if elitism should be employed by
-   *        this instance.
-   * @param numOfAgents the number of sub-engines the work is delegated to.
+   * @param generation the initial generation shared by all sub-engines
+   * @param selector the selection strategy for choosing parent chromosomes
+   * @param crossoverStrategy the strategy for combining parent chromosomes
+   * @param mutationStrategy the strategy for modifying offspring chromosomes
+   * @param fitnessFunction the function that evaluates chromosome fitness
+   * @param elitismEnabled {@code true} to preserve best chromosomes in each
+   *        island
+   * @param numOfAgents the number of parallel evolution engines (islands) to
+   *        create
+   * @throws NullPointerException if any strategy parameter is {@code null}
+   * @throws IllegalArgumentException if {@code numOfAgents} is less than 1
+   * @see #CompositeEvolutionEngine(Generation, double, double,
+   *      IFitnessFunction, boolean, int)
    */
   public CompositeEvolutionEngine(Generation generation, ISelector selector,
     ICrossoverStrategy crossoverStrategy, IMutationStrategy mutationStrategy,
@@ -68,15 +121,26 @@ public class CompositeEvolutionEngine implements IEvolutionEngine {
   }
 
   /**
-   * Constructs this composite Evolution Engine.
+   * Constructs a composite evolution engine with default strategies for all
+   * subpopulations. This is the simplest constructor for island model usage.
+   * <p>
+   * All sub-engines use identical default selection, crossover, and mutation
+   * strategies with the specified rates. The engines evolve independently but
+   * start from the same initial population.
    * 
-   * @param generation the initial generation.
-   * @param crossoverRate the crossover rate.
-   * @param mutationRate the chromosome mutation rate.
-   * @param fitnessFunction the fitness function.
-   * @param elitismEnabled <code>true</code> if elitism should be employed by
-   *        this instance.
-   * @param numOfAgents the number of sub-engines the work is delegated to.
+   * @param generation the initial generation shared by all sub-engines
+   * @param crossoverRate the probability of crossover occurring (0.0 to 1.0)
+   * @param mutationRate the probability of mutation occurring (0.0 to 1.0)
+   * @param fitnessFunction the function that evaluates chromosome fitness
+   * @param elitismEnabled {@code true} to preserve best chromosomes in each
+   *        island
+   * @param numOfAgents the number of parallel evolution engines (islands) to
+   *        create
+   * @throws NullPointerException if any parameter is {@code null}
+   * @throws IllegalArgumentException if {@code numOfAgents} is less than 1
+   * @see DefaultSelector
+   * @see DefaultCrossoverStrategy
+   * @see DefaultMutationStrategy
    */
   public CompositeEvolutionEngine(Generation generation, double crossoverRate,
     double mutationRate, IFitnessFunction fitnessFunction,

@@ -33,21 +33,73 @@
 package com.algodesigner.genetic;
 
 /**
- * Selects a pair of chromosomes for reproduction.
+ * Functional interface that defines selection strategies for choosing parent
+ * chromosomes in a genetic algorithm. Selection is a critical component that
+ * determines which chromosomes reproduce and pass their genes to the next
+ * generation.
+ * <p>
+ * Selection strategies balance exploration (trying new solutions) and
+ * exploitation (refining good solutions). Common approaches include:
+ * <ul>
+ * <li><strong>Fitness-proportionate selection:</strong> Probability
+ * proportional to fitness</li>
+ * <li><strong>Tournament selection:</strong> Choose best from random
+ * subset</li>
+ * <li><strong>Rank-based selection:</strong> Probability based on rank rather
+ * than raw fitness</li>
+ * <li><strong>Truncation selection:</strong> Choose only from top
+ * performers</li>
+ * </ul>
+ * <p>
+ * <strong>Example implementations:</strong>
+ * 
+ * <pre>
+ * // Tournament selection: pick best of random k chromosomes
+ * ISelector tournamentSelector = (generation, fitnessScores) -> {
+ *   int k = 3;
+ *   int best1 = randomTournamentWinner(generation, fitnessScores, k);
+ *   int best2 = randomTournamentWinner(generation, fitnessScores, k);
+ *   return new ChromosomePair(generation.getChromosome(best1),
+ *     generation.getChromosome(best2));
+ * };
+ * 
+ * // Roulette wheel selection: probability proportional to fitness
+ * ISelector rouletteSelector = (generation, fitnessScores) -> {
+ *   int parent1 = selectByRouletteWheel(fitnessScores);
+ *   int parent2 = selectByRouletteWheel(fitnessScores);
+ *   return new ChromosomePair(generation.getChromosome(parent1),
+ *     generation.getChromosome(parent2));
+ * };
+ * </pre>
  * 
  * @author Vlad Shurupov
  * @version 1.0
+ * @see ChromosomePair
+ * @see Generation
+ * @see DefaultSelector
+ * @see EvolutionEngine
  */
 @FunctionalInterface
 public interface ISelector {
 
   /**
-   * Selects a pair of chromosomes for reproduction.
+   * Selects a pair of parent chromosomes from the current generation for
+   * reproduction. The selection should favour fitter chromosomes while
+   * maintaining sufficient diversity in the population.
+   * <p>
+   * The method receives fitness scores for all chromosomes in the generation,
+   * typically ordered with the best chromosome first. Implementations should
+   * use these scores to make selection decisions.
    * 
-   * @param generation a generation from which a pair of chromosomes is to be
-   *        selectted.
-   * @param fitnessScores a set of fitness scores used by the selection process.
-   * @return a selected pair of chromosomes (cannot be {@code null}).
+   * @param generation the current generation containing candidate chromosomes
+   * @param fitnessScores fitness scores for all chromosomes in the generation,
+   *        where {@code fitnessScores[i]} corresponds to
+   *        {@code generation.getChromosome(i)}
+   * @return a pair of selected parent chromosomes, never {@code null}
+   * @throws NullPointerException if either parameter is {@code null}
+   * @throws IllegalArgumentException if array sizes don't match or scores are
+   *         invalid
+   * @see ChromosomePair
    */
   ChromosomePair select(Generation generation, double[] fitnessScores);
 }

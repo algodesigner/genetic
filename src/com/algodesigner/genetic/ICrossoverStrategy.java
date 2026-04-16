@@ -33,19 +33,83 @@
 package com.algodesigner.genetic;
 
 /**
- * Crossover Strategy Interface
+ * Defines crossover (recombination) strategies for combining genetic material
+ * from parent chromosomes to create offspring in a genetic algorithm. Crossover
+ * is a key operator that enables exploration of new solution combinations.
+ * <p>
+ * Crossover strategies determine how genes from two parents are mixed to
+ * produce new chromosomes. Effective crossover balances inheritance of good
+ * traits from parents with creation of novel combinations.
+ * <p>
+ * <strong>Common crossover techniques:</strong>
+ * <ul>
+ * <li><strong>Single-point crossover:</strong> Swap segments after a random
+ * point</li>
+ * <li><strong>Multi-point crossover:</strong> Swap multiple segments</li>
+ * <li><strong>Uniform crossover:</strong> Randomly select genes from either
+ * parent</li>
+ * <li><strong>Arithmetic crossover:</strong> Combine gene values
+ * mathematically</li>
+ * <li><strong>Order-based crossover:</strong> Preserve relative ordering (for
+ * permutations)</li>
+ * </ul>
+ * <p>
+ * <strong>Example implementations:</strong>
+ * 
+ * <pre>
+ * // Single-point crossover
+ * ICrossoverStrategy singlePointCrossover = (parent1, parent2) -> {
+ *   int crossoverPoint = random.nextInt(parent1.size());
+ *   Gene[] child1Genes = combineGenes(parent1, parent2, 0, crossoverPoint);
+ *   Gene[] child2Genes = combineGenes(parent2, parent1, 0, crossoverPoint);
+ *   return new ChromosomePair(new Chromosome(child1Genes),
+ *     new Chromosome(child2Genes));
+ * };
+ * 
+ * // Uniform crossover (each gene independently from either parent)
+ * ICrossoverStrategy uniformCrossover = (parent1, parent2) -> {
+ *   Gene[] child1Genes = new Gene[parent1.size()];
+ *   Gene[] child2Genes = new Gene[parent2.size()];
+ *   for (int i = 0; i < parent1.size(); i++) {
+ *     if (random.nextBoolean()) {
+ *       child1Genes[i] = parent1.getGene(i);
+ *       child2Genes[i] = parent2.getGene(i);
+ *     } else {
+ *       child1Genes[i] = parent2.getGene(i);
+ *       child2Genes[i] = parent1.getGene(i);
+ *     }
+ *   }
+ *   return new ChromosomePair(new Chromosome(child1Genes),
+ *     new Chromosome(child2Genes));
+ * };
+ * </pre>
  * 
  * @author Vlad Shurupov
  * @version 1.0
+ * @see ChromosomePair
+ * @see Chromosome
+ * @see DefaultCrossoverStrategy
+ * @see EvolutionEngine
  */
 public interface ICrossoverStrategy {
 
   /**
-   * Performs a crossover on two given chromosomes.
+   * Combines two parent chromosomes to produce a pair of offspring chromosomes.
+   * The crossover operation mixes genetic material from both parents, creating
+   * new solutions that inherit traits from each.
+   * <p>
+   * Implementations should ensure that offspring chromosomes are valid for the
+   * problem domain and maintain any required constraints (e.g., gene types,
+   * chromosome length).
    * 
-   * @param chromosome1 the first chromosome; cannot be {@code null}
-   * @param chromosome2 the second chromosome; cannot be {@code null}
-   * @return the resulting offspring
+   * @param chromosome1 the first parent chromosome, never {@code null}
+   * @param chromosome2 the second parent chromosome, never {@code null}
+   * @return a pair of offspring chromosomes created by combining the parents,
+   *         never {@code null}
+   * @throws NullPointerException if either chromosome is {@code null}
+   * @throws IncompatibleChromosomeException if chromosomes cannot be crossed
+   *         over (e.g., different lengths, incompatible gene types)
+   * @see ChromosomePair
    */
   ChromosomePair crossover(Chromosome chromosome1, Chromosome chromosome2);
 }
